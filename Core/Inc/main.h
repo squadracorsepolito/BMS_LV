@@ -85,5 +85,3 @@ void Notify_Error(uint32_t *TxMailbox, uint8_t msg);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -1,0 +1,12 @@
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+.mxproject
+
+**/build/
+**/Backup/*
+
+**/.vscode/*
+!**/.vscode/extensions.json
