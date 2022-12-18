@@ -1,6 +1,6 @@
 Configuration	BMS_LV
 STM32CubeMX 	6.6.1
-Date	12/13/2022
+Date	12/18/2022
 MCU	STM32F446RETx
 
 
@@ -55,6 +55,7 @@ Pin Nb	PINs	FUNCTIONs	LABELs
 46	PA13	SYS_JTMS-SWDIO	
 49	PA14	SYS_JTCK-SWCLK	
 55	PB3	SYS_JTDO-SWO	
+57	PB5	GPIO_Output	LV_CMD_GPIO_OUT
 PERIPHERALS	MODES	FUNCTIONS	PINS
 ADC1	IN0	ADC1_IN0	PA0-WKUP
 CAN1	Activated	CAN1_RX	PA11
@@ -105,6 +106,7 @@ Pin Nb	PINs	FUNCTIONs	LABELs
 46	PA13	SYS_JTMS-SWDIO	
 49	PA14	SYS_JTCK-SWCLK	
 55	PB3	SYS_JTDO-SWO	
+57	PB5	GPIO_Output	LV_CMD_GPIO_OUT
 
 
 
@@ -113,7 +115,7 @@ SOFTWARE PROJECT
 Project Settings : 
 Project Name : BMS_LV
 Project Folder : /home/simone/Documents/10.SquadraCorse/BMS_LV
-Toolchain / IDE : EWARM V8.50
+Toolchain / IDE : Makefile
 Firmware Package Name and Version : STM32Cube FW_F4 V1.27.1
 
 
