@@ -7,13 +7,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -28,7 +27,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
+#include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -54,28 +53,69 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-void Notify_Error(uint32_t *TxMailbox, uint8_t msg);
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define curr_sens_Pin GPIO_PIN_2
-#define curr_sens_GPIO_Port GPIOC
-#define RELAY_CMD_Pin GPIO_PIN_4
-#define RELAY_CMD_GPIO_Port GPIOA
-#define ORANGE_LED_Pin GPIO_PIN_5
-#define ORANGE_LED_GPIO_Port GPIOA
-#define YELLOW_LED_Pin GPIO_PIN_10
-#define YELLOW_LED_GPIO_Port GPIOB
-#define gpio_RED_Pin GPIO_PIN_10
-#define gpio_RED_GPIO_Port GPIOD
-#define gpio_GREEN_Pin GPIO_PIN_12
-#define gpio_GREEN_GPIO_Port GPIOD
-#define gpio_BLUE_Pin GPIO_PIN_15
-#define gpio_BLUE_GPIO_Port GPIOD
-#define cmd_fan_Pin GPIO_PIN_10
-#define cmd_fan_GPIO_Port GPIOC
-#define Wakeup_Pin GPIO_PIN_6
-#define Wakeup_GPIO_Port GPIOB
+#define M95256_NS_GPIO_OUT_Pin GPIO_PIN_0
+#define M95256_NS_GPIO_OUT_GPIO_Port GPIOC
+#define M95256_D_SPI_MOSI_Pin GPIO_PIN_1
+#define M95256_D_SPI_MOSI_GPIO_Port GPIOC
+#define CAS50NP_OUT_ADC_IN_Pin GPIO_PIN_2
+#define CAS50NP_OUT_ADC_IN_GPIO_Port GPIOC
+#define M95256_NW_GPIO_OUT_Pin GPIO_PIN_3
+#define M95256_NW_GPIO_OUT_GPIO_Port GPIOC
+#define NTCx_ADC2_IN_Pin GPIO_PIN_0
+#define NTCx_ADC2_IN_GPIO_Port GPIOA
+#define NTCx_ADC2_INA1_Pin GPIO_PIN_1
+#define NTCx_ADC2_INA1_GPIO_Port GPIOA
+#define NTCx_ADC2_INA2_Pin GPIO_PIN_2
+#define NTCx_ADC2_INA2_GPIO_Port GPIOA
+#define NTCx_ADC2_INA3_Pin GPIO_PIN_3
+#define NTCx_ADC2_INA3_GPIO_Port GPIOA
+#define NTCx_ADC2_INA4_Pin GPIO_PIN_4
+#define NTCx_ADC2_INA4_GPIO_Port GPIOA
+#define L9963T_SCK_SPI_SCK_Pin GPIO_PIN_5
+#define L9963T_SCK_SPI_SCK_GPIO_Port GPIOA
+#define L9963T_SDO_SPI_MISO_Pin GPIO_PIN_6
+#define L9963T_SDO_SPI_MISO_GPIO_Port GPIOA
+#define L9963T_SDI_SPI_MOSI_Pin GPIO_PIN_7
+#define L9963T_SDI_SPI_MOSI_GPIO_Port GPIOA
+#define L9963T_NCS_GPIO_OUT_Pin GPIO_PIN_4
+#define L9963T_NCS_GPIO_OUT_GPIO_Port GPIOC
+#define L9963T_DIS_GPIO_INOUT_Pin GPIO_PIN_5
+#define L9963T_DIS_GPIO_INOUT_GPIO_Port GPIOC
+#define L9963T_ISOFREQ_GPIO_OUT_Pin GPIO_PIN_0
+#define L9963T_ISOFREQ_GPIO_OUT_GPIO_Port GPIOB
+#define L9963T_BNE_GPIO_IN_Pin GPIO_PIN_1
+#define L9963T_BNE_GPIO_IN_GPIO_Port GPIOB
+#define L9963T_TXEN_GPIO_OUT_Pin GPIO_PIN_2
+#define L9963T_TXEN_GPIO_OUT_GPIO_Port GPIOB
+#define M95256_C_SPI_SCK_Pin GPIO_PIN_10
+#define M95256_C_SPI_SCK_GPIO_Port GPIOB
+#define M95256_Q_SPI_MISO_Pin GPIO_PIN_14
+#define M95256_Q_SPI_MISO_GPIO_Port GPIOB
+#define LED_ERR_GPIO_OUT_Pin GPIO_PIN_15
+#define LED_ERR_GPIO_OUT_GPIO_Port GPIOB
+#define LED_STAT1_GPIO_OUT_Pin GPIO_PIN_6
+#define LED_STAT1_GPIO_OUT_GPIO_Port GPIOC
+#define LED_STAT2_GPIO_OUT_Pin GPIO_PIN_7
+#define LED_STAT2_GPIO_OUT_GPIO_Port GPIOC
+#define LED_WARN_GPIO_OUT_Pin GPIO_PIN_8
+#define LED_WARN_GPIO_OUT_GPIO_Port GPIOC
+#define LED_STAT3_GPIO_OUT_Pin GPIO_PIN_9
+#define LED_STAT3_GPIO_OUT_GPIO_Port GPIOC
+#define T_VCP_TX_USART_TX_Pin GPIO_PIN_9
+#define T_VCP_TX_USART_TX_GPIO_Port GPIOA
+#define T_VCP_RX_USART_RX_Pin GPIO_PIN_10
+#define T_VCP_RX_USART_RX_GPIO_Port GPIOA
+#define SN65HVD23x_R_CAN_TX_Pin GPIO_PIN_11
+#define SN65HVD23x_R_CAN_TX_GPIO_Port GPIOA
+#define SN65HVD23x_D_CAN_TX_Pin GPIO_PIN_12
+#define SN65HVD23x_D_CAN_TX_GPIO_Port GPIOA
+#define LV_CMD_GPIO_OUT_Pin GPIO_PIN_5
+#define LV_CMD_GPIO_OUT_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

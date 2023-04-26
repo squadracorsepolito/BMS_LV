@@ -13,7 +13,7 @@
 ######################################
 # target
 ######################################
-TARGET = bms_lv
+TARGET = BMS_LV
 
 
 ######################################
@@ -36,31 +36,41 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/bms_lv.c \
+Core/Lib/L9963_lib/src/L9963E.c \
+Core/Lib/L9963_lib/src/L9963E_drv.c \
+Core/Src/adc.c \
+Core/Src/can.c \
+Core/Src/eeprom/eeprom-config.c \
+Core/Src/eeprom/m95256/m95256.c \
+Core/Src/gpio.c \
 Core/Src/main.c \
-Core/Src/stm32f3xx_hal_msp.c \
-Core/Src/stm32f3xx_it.c \
-Core/Src/system_stm32f3xx.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_adc.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_adc_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_can.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c
+Core/Src/spi.c \
+Core/Src/stm32_if.c \
+Core/Src/stm32f4xx_hal_msp.c \
+Core/Src/stm32f4xx_it.c \
+Core/Src/system_stm32f4xx.c \
+Core/Src/usart.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c
 
 
 CPP_SOURCES = \
@@ -68,7 +78,7 @@ CPP_SOURCES = \
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32f303xe.s
+startup_stm32f446xx.s
 
 
 
@@ -79,7 +89,7 @@ PREFIX = arm-none-eabi-
 POSTFIX = "
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
-GCC_PATH="/Users/rossi/Library/Application Support/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/arm-none-eabi-gcc/11.3.1-1.1.2/.content/bin
+GCC_PATH="/usr/bin
 ifdef GCC_PATH
 CXX = $(GCC_PATH)/$(PREFIX)g++$(POSTFIX)
 CC = $(GCC_PATH)/$(PREFIX)gcc$(POSTFIX)
@@ -117,13 +127,13 @@ AS_DEFS =
 
 # C defines
 C_DEFS =  \
--DSTM32F303xE \
+-DSTM32F446xx \
 -DUSE_HAL_DRIVER
 
 
 # CXX defines
 CXX_DEFS =  \
--DSTM32F303xE \
+-DSTM32F446xx \
 -DUSE_HAL_DRIVER
 
 
@@ -133,10 +143,25 @@ AS_INCLUDES = \
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
--IDrivers/CMSIS/Device/ST/STM32F3xx/Include \
+-ICore/Lib/L9963_lib/inc \
+-ICore/Lib/L9963_lib/interface_example \
+-ICore/Lib/stmlibs \
+-ICore/Lib/stmlibs/circular_buffer \
+-ICore/Lib/stmlibs/critical_section \
+-ICore/Lib/stmlibs/error_utils \
+-ICore/Lib/stmlibs/fsm \
+-ICore/Lib/stmlibs/lock \
+-ICore/Lib/stmlibs/logger \
+-ICore/Lib/stmlibs/longcounter \
+-ICore/Lib/stmlibs/pwm \
+-ICore/Lib/stmlibs/timebase \
+-ICore/Lib/stmlibs/timer_utils \
+-ICore/Src/eeprom \
+-ICore/Src/eeprom/m95256 \
+-IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
--IDrivers/STM32F3xx_HAL_Driver/Inc \
--IDrivers/STM32F3xx_HAL_Driver/Inc/Legacy
+-IDrivers/STM32F4xx_HAL_Driver/Inc \
+-IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy
 
 
 
@@ -153,8 +178,8 @@ CXXFLAGS += -g -gdwarf -ggdb
 endif
 
 # Add additional flags
-CFLAGS += 
-ASFLAGS += 
+CFLAGS += -Wall -fdata-sections -ffunction-sections 
+ASFLAGS += -Wall -fdata-sections -ffunction-sections 
 CXXFLAGS += 
 
 # Generate dependency information
@@ -165,7 +190,7 @@ CXXFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32F303VETx_FLASH.ld
+LDSCRIPT = STM32F446RETx_FLASH.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 
@@ -191,8 +216,14 @@ vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
 # list of C objects
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
+
 # list of ASM program objects
-OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
+# list of ASM program objects
+UPPER_CASE_ASM_SOURCES = $(filter %.S,$(ASM_SOURCES))
+LOWER_CASE_ASM_SOURCES = $(filter %.s,$(ASM_SOURCES))
+
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(UPPER_CASE_ASM_SOURCES:.S=.o)))
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(LOWER_CASE_ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.cpp STM32Make.make | $(BUILD_DIR) 
@@ -205,6 +236,9 @@ $(BUILD_DIR)/%.o: %.c STM32Make.make | $(BUILD_DIR)
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s STM32Make.make | $(BUILD_DIR)
+	$(AS) -c $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/%.o: %.S STM32Make.make | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) STM32Make.make
@@ -224,13 +258,13 @@ $(BUILD_DIR):
 # flash
 #######################################
 flash: $(BUILD_DIR)/$(TARGET).elf
-	"/Users/rossi/Library/Application Support/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/openocd/0.11.0-5.1/.content/bin/openocd" -f ./openocd.cfg -c "program $(BUILD_DIR)/$(TARGET).elf verify reset exit"
+	"/usr/bin/openocd" -f ./openocd.cfg -c "program $(BUILD_DIR)/$(TARGET).elf verify reset exit"
 
 #######################################
 # erase
 #######################################
 erase: $(BUILD_DIR)/$(TARGET).elf
-	"/Users/rossi/Library/Application Support/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/openocd/0.11.0-5.1/.content/bin/openocd" -f ./openocd.cfg -c "init; reset halt; stm32f3x mass_erase 0; exit"
+	"/usr/bin/openocd" -f ./openocd.cfg -c "init; reset halt; stm32f4x mass_erase 0; exit"
 
 #######################################
 # clean up

@@ -1,0 +1,6 @@
+[submodule "Core/Lib/stmlibs"]
+	path = Core/Lib/stmlibs
+	url = https://github.com/squadracorsepolito/stmlibs.git
+[submodule "Core/Lib/L9963_lib"]
+	path = Core/Lib/L9963_lib
+	url = https://github.com/squadracorsepolito/L9963E_lib.git
