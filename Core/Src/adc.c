@@ -21,7 +21,9 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
-
+#include <stdio.h>
+#include <string.h>
+#include "usart.h"
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -49,8 +51,8 @@ void MX_ADC1_Init(void)
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
+  hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T2_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
   hadc1.Init.DMAContinuousRequests = DISABLE;
@@ -143,6 +145,9 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(CAS50NP_OUT_ADC_IN_GPIO_Port, &GPIO_InitStruct);
 
+    /* ADC1 interrupt Init */
+    HAL_NVIC_SetPriority(ADC_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(ADC_IRQn);
   /* USER CODE BEGIN ADC1_MspInit 1 */
 
   /* USER CODE END ADC1_MspInit 1 */
@@ -169,6 +174,9 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+    /* ADC2 interrupt Init */
+    HAL_NVIC_SetPriority(ADC_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(ADC_IRQn);
   /* USER CODE BEGIN ADC2_MspInit 1 */
 
   /* USER CODE END ADC2_MspInit 1 */
@@ -190,6 +198,15 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     PC2     ------> ADC1_IN12
     */
     HAL_GPIO_DeInit(CAS50NP_OUT_ADC_IN_GPIO_Port, CAS50NP_OUT_ADC_IN_Pin);
+
+    /* ADC1 interrupt Deinit */
+  /* USER CODE BEGIN ADC1:ADC_IRQn disable */
+    /**
+    * Uncomment the line below to disable the "ADC_IRQn" interrupt
+    * Be aware, disabling shared interrupt may affect other IPs
+    */
+    /* HAL_NVIC_DisableIRQ(ADC_IRQn); */
+  /* USER CODE END ADC1:ADC_IRQn disable */
 
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
@@ -213,6 +230,15 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     HAL_GPIO_DeInit(GPIOA, NTCx_ADC2_IN_Pin|NTCx_ADC2_INA1_Pin|NTCx_ADC2_INA2_Pin|NTCx_ADC2_INA3_Pin
                           |NTCx_ADC2_INA4_Pin);
 
+    /* ADC2 interrupt Deinit */
+  /* USER CODE BEGIN ADC2:ADC_IRQn disable */
+    /**
+    * Uncomment the line below to disable the "ADC_IRQn" interrupt
+    * Be aware, disabling shared interrupt may affect other IPs
+    */
+    /* HAL_NVIC_DisableIRQ(ADC_IRQn); */
+  /* USER CODE END ADC2:ADC_IRQn disable */
+
   /* USER CODE BEGIN ADC2_MspDeInit 1 */
 
   /* USER CODE END ADC2_MspDeInit 1 */
@@ -220,5 +246,11 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
+  char buf[32] = {0};
+  if(hadc->Instance == ADC1) {
+    sprintf(buf, "%ld -- 0x%lx\r\n", HAL_GetTick(), hadc->Instance->DR);
+    HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf), 10);
+  }
+}
 /* USER CODE END 1 */

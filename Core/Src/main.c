@@ -21,6 +21,7 @@
 #include "adc.h"
 #include "can.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -99,64 +100,17 @@ int main(void)
   MX_SPI2_Init();
   MX_USART1_UART_Init();
   MX_ADC2_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  uint32_t def = 11;
-  uint32_t new = 22;
-  HAL_GPIO_WritePin(M95256_NW_GPIO_OUT_GPIO_Port, M95256_NW_GPIO_OUT_Pin, GPIO_PIN_SET);
-  EEPROM_ConfigTypeDef eeprom_config;
-  EEPROM_config_init(&eeprom_config, &hspi2, M95256_NS_GPIO_OUT_GPIO_Port, M95256_NS_GPIO_OUT_Pin, 0x1, 1, (void*)&def, 4);
-
-
-  L9963E_IfTypeDef interface = {
-      .L9963E_IF_DelayMs = DelayMs,
-      .L9963E_IF_GetTickMs = GetTickMs,
-      .L9963E_IF_GPIO_ReadPin = GPIO_ReadPin,
-      .L9963E_IF_GPIO_WritePin = GPIO_WritePin,
-      .L9963E_IF_SPI_Receive = SPI_Receive,
-      .L9963E_IF_SPI_Transmit = SPI_Transmit
-    };
-
-  HAL_UART_Transmit(&huart1, (uint8_t*)"test\r\n", 6, 10);
-
-  L9963E_HandleTypeDef h9l;
-  L9963E_init(&h9l, interface, 1);
-  volatile L9963E_StatusTypeDef e = L9963E_addressing_procedure(&h9l, 0b11, 0, 0, 1);
-
-  char *dioca = e == L9963E_OK ? "ok\r\n" : "ko\r\n";
-  HAL_UART_Transmit(&huart1, (uint8_t*)dioca, 4, 10);
-
-  L9963E_RegisterUnionTypeDef bal3_reg = {.generic = 0};
-  L9963E_RegisterUnionTypeDef dev_gen_cfg_reg = {.generic = 0};
-
-  L9963E_DRV_reg_read(&(h9l.drv_handle), 0x1, L9963E_DEV_GEN_CFG_ADDR, &dev_gen_cfg_reg, 5);
-  e = L9963E_DRV_reg_read(&(h9l.drv_handle), 0x1, L9963E_Bal_3_ADDR, &bal3_reg, 5);
+  HAL_TIM_Base_Start(&htim2);
+  HAL_ADC_Start_IT(&hadc1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /*
-    char out[10] = {0};
-    HAL_GPIO_TogglePin(LED_STAT1_GPIO_OUT_GPIO_Port, LED_STAT1_GPIO_OUT_Pin);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(LED_STAT2_GPIO_OUT_GPIO_Port, LED_STAT2_GPIO_OUT_Pin);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(LED_STAT3_GPIO_OUT_GPIO_Port, LED_STAT3_GPIO_OUT_Pin);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(LED_WARN_GPIO_OUT_GPIO_Port, LED_WARN_GPIO_OUT_Pin);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(LED_ERR_GPIO_OUT_GPIO_Port, LED_ERR_GPIO_OUT_Pin);
-    HAL_Delay(100);
-    */
-
-    L9963E_DRV_wakeup(&(h9l.drv_handle));
-    /*
-    sprintf(out, "%ld\r\n", *(uint32_t*)EEPROM_config_get(&eeprom_config));
-    HAL_UART_Transmit(&huart1, (uint8_t*)out, strlen(out), 10);
-    EEPROM_config_set(&eeprom_config, &new);
-    EEPROM_config_write(&eeprom_config);
-    */
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
