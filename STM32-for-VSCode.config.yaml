@@ -44,7 +44,8 @@ assemblyFlags:
   - -fdata-sections
   - -ffunction-sections
 
-linkerFlags: []
+linkerFlags:
+  - -u_printf_float
 
 # libraries to be included. The -l prefix to the library will be automatically added.
 libraries: 
@@ -86,6 +87,8 @@ sourceFiles:
   - Src/**
   - Core/Src/**
   - Core/Lib/L9963_lib/src/**
+  - Core/Lib/stmlibs/timer_utils/**
+  - Core/Lib/stmlibs/timebase/**
 
 
 # When no makefile is present it will show a warning pop-up.

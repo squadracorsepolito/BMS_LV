@@ -29,9 +29,9 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <string.h>
-#include "eeprom-config.h"
-#include "L9963E.h"
-#include "stm32_if.h"
+#include "L9963E_utils.h"
+#include "lem.h"
+#include "data_reading_timebase.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,16 +101,18 @@ int main(void)
   MX_USART1_UART_Init();
   MX_ADC2_Init();
   MX_TIM2_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start(&htim2);
-  HAL_ADC_Start_IT(&hadc1);
+  lem_init();
+  L9963E_utils_init();
+  data_reading_timebase_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    
+    data_reading_timebase_routine();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

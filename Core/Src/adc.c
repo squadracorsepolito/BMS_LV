@@ -21,9 +21,7 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
-#include <stdio.h>
-#include <string.h>
-#include "usart.h"
+#include "lem.h"
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -51,7 +49,7 @@ void MX_ADC1_Init(void)
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISINGFALLING;
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T2_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
@@ -247,10 +245,8 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
 /* USER CODE BEGIN 1 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
-  char buf[32] = {0};
   if(hadc->Instance == ADC1) {
-    sprintf(buf, "%ld -- 0x%lx\r\n", HAL_GetTick(), hadc->Instance->DR);
-    HAL_UART_Transmit(&huart1, (uint8_t*)buf, strlen(buf), 10);
+    lem_adc_callback(hadc);
   }
 }
 /* USER CODE END 1 */

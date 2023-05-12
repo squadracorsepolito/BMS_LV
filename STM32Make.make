@@ -38,11 +38,16 @@ BUILD_DIR = build
 C_SOURCES =  \
 Core/Lib/L9963_lib/src/L9963E.c \
 Core/Lib/L9963_lib/src/L9963E_drv.c \
+Core/Lib/stmlibs/timebase/timebase.c \
+Core/Lib/stmlibs/timer_utils/timer_utils.c \
+Core/Src/L9963E_utils.c \
 Core/Src/adc.c \
 Core/Src/can.c \
+Core/Src/data_reading_timebase.c \
 Core/Src/eeprom/eeprom-config.c \
 Core/Src/eeprom/m95256/m95256.c \
 Core/Src/gpio.c \
+Core/Src/lem.c \
 Core/Src/main.c \
 Core/Src/spi.c \
 Core/Src/stm32_if.c \
@@ -199,7 +204,7 @@ LIBDIR = \
 
 
 # Additional LD Flags from config file
-ADDITIONALLDFLAGS = -specs=nano.specs 
+ADDITIONALLDFLAGS = -specs=nano.specs -u_printf_float 
 
 LDFLAGS = $(MCU) $(ADDITIONALLDFLAGS) -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
