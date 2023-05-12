@@ -21,9 +21,6 @@ STMLIBS_StatusTypeDef data_reading_lem_cb(void) {
 STMLIBS_StatusTypeDef data_reading_l9963e_cb(void) {
   uint8_t is_ntc_measure_required = ntc_is_measure_ext_time();
   L9963E_utils_read_cells(is_ntc_measure_required);
-
-  if(is_ntc_measure_required)
-    ntc_acquire_ext_data();
   return STMLIBS_OK;
 }
 

@@ -2,6 +2,7 @@
 
 #include "L9963E.h"
 #include "stm32_if.h"
+#include "ntc.h"
 #include "usart.h"
 #include <stdio.h>
 #include <string.h>
@@ -94,6 +95,8 @@ void L9963E_utils_read_cells(uint8_t read_gpio) {
 
   L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO9, &voltage, &d_rdy);
   vgpio[6] = voltage;
+
+  ntc_set_data(vgpio, GPIO_N, 0);
 }
 
 uint16_t const* L9963E_utils_get_gpio(uint8_t *len) {

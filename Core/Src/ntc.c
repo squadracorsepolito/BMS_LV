@@ -9,8 +9,9 @@
 
 #define NTC_EXT_ADC_N 7
 #define NTC_INT_ADC_N 5
+#define NTC_ADC_N (NTC_INT_ADC_N + NTC_EXT_ADC_N)
 
-uint16_t ntc_data[NTC_INT_ADC_N + NTC_EXT_ADC_N];
+uint16_t ntc_data[NTC_ADC_N];
 uint16_t ntc_dma_data[NTC_INT_ADC_N];
 
 void ntc_init(void) {
@@ -29,12 +30,12 @@ uint8_t ntc_is_measure_ext_time(void) {
     return counter == 0;
 }
 
-void ntc_acquire_ext_data(void) {
-    uint8_t len;
-    uint16_t const *vgpio = L9963E_utils_get_gpio(&len);
-    
-    for(uint8_t i=0; i<NTC_EXT_ADC_N; ++i) {
-        ntc_data[i] = (10*NTC_EXP_SMOOTH_ALPHA*vgpio[i] + 10*(1-NTC_EXP_SMOOTH_ALPHA)*ntc_data[i])/10;
+void ntc_set_data(uint16_t const *data, uint8_t len, uint8_t offset) {
+    if(len+offset > NTC_ADC_N)
+        return;
+
+    for(uint8_t i=0; i<len; ++i) {
+        ntc_data[i+offset] = (10*NTC_EXP_SMOOTH_ALPHA*data[i+offset] + 10*(1-NTC_EXP_SMOOTH_ALPHA)*ntc_data[i+offset])/10;
     }
 }
 
