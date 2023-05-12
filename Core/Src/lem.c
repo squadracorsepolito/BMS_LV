@@ -2,6 +2,8 @@
 
 #include "tim.h"
 
+#define LEM_EXP_SMOOTH_ALPHA 0.1f
+
 uint16_t current;
 
 void lem_init(void) {
@@ -15,7 +17,7 @@ uint16_t lem_get_current(void) {
 }
 
 void lem_new_value(uint16_t val) {
-    current = 0.1*val + 0.9*current;
+    current = LEM_EXP_SMOOTH_ALPHA*val + (1-LEM_EXP_SMOOTH_ALPHA)*current;
 }
 
 void lem_adc_callback(ADC_HandleTypeDef *hadc) {

@@ -44,11 +44,13 @@ Core/Src/L9963E_utils.c \
 Core/Src/adc.c \
 Core/Src/can.c \
 Core/Src/data_reading_timebase.c \
+Core/Src/dma.c \
 Core/Src/eeprom/eeprom-config.c \
 Core/Src/eeprom/m95256/m95256.c \
 Core/Src/gpio.c \
 Core/Src/lem.c \
 Core/Src/main.c \
+Core/Src/ntc.c \
 Core/Src/spi.c \
 Core/Src/stm32_if.c \
 Core/Src/stm32f4xx_hal_msp.c \

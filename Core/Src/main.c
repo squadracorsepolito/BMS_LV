@@ -20,6 +20,7 @@
 #include "main.h"
 #include "adc.h"
 #include "can.h"
+#include "dma.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -31,6 +32,7 @@
 #include <string.h>
 #include "L9963E_utils.h"
 #include "lem.h"
+#include "ntc.h"
 #include "data_reading_timebase.h"
 /* USER CODE END Includes */
 
@@ -64,6 +66,7 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+  uint16_t data[5] = {0};
 /* USER CODE END 0 */
 
 /**
@@ -94,6 +97,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_CAN1_Init();
   MX_SPI1_Init();
@@ -103,6 +107,7 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
+  ntc_init();
   lem_init();
   L9963E_utils_init();
   data_reading_timebase_init();

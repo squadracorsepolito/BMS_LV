@@ -7,6 +7,7 @@
 
 #include "L9963E_utils.h"
 #include "lem.h"
+#include "ntc.h"
 
 TIMEBASE_HandleTypeDef data_reading_timebase_handle;
 
@@ -18,7 +19,11 @@ STMLIBS_StatusTypeDef data_reading_lem_cb(void) {
 }
 
 STMLIBS_StatusTypeDef data_reading_l9963e_cb(void) {
-  L9963E_utils_read_cells(0);
+  uint8_t is_ntc_measure_required = ntc_is_measure_ext_time();
+  L9963E_utils_read_cells(is_ntc_measure_required);
+
+  if(is_ntc_measure_required)
+    ntc_acquire_ext_data();
   return STMLIBS_OK;
 }
 
@@ -32,8 +37,6 @@ void data_reading_timebase_init(void) {
 
   TIMEBASE_add_interval(&data_reading_timebase_handle, 200000, &interval);
   TIMEBASE_register_callback(&data_reading_timebase_handle, interval, data_reading_l9963e_cb);
-
-  //HAL_TIM_Base_Start(&htim6);
 }
 
 void data_reading_timebase_routine(void) {
