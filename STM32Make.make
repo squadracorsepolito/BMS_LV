@@ -38,6 +38,8 @@ BUILD_DIR = build
 C_SOURCES =  \
 Core/Lib/L9963_lib/src/L9963E.c \
 Core/Lib/L9963_lib/src/L9963E_drv.c \
+Core/Lib/stmlibs/error_utils/error_utils.c \
+Core/Lib/stmlibs/logger/logger.c \
 Core/Lib/stmlibs/timebase/timebase.c \
 Core/Lib/stmlibs/timer_utils/timer_utils.c \
 Core/Src/L9963E_utils.c \
@@ -47,8 +49,10 @@ Core/Src/data_reading_timebase.c \
 Core/Src/dma.c \
 Core/Src/eeprom/eeprom-config.c \
 Core/Src/eeprom/m95256/m95256.c \
+Core/Src/errors.c \
 Core/Src/gpio.c \
 Core/Src/lem.c \
+Core/Src/logger_wrapper.c \
 Core/Src/main.c \
 Core/Src/ntc.c \
 Core/Src/spi.c \

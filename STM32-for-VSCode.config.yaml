@@ -89,6 +89,8 @@ sourceFiles:
   - Core/Lib/L9963_lib/src/**
   - Core/Lib/stmlibs/timer_utils/**
   - Core/Lib/stmlibs/timebase/**
+  - Core/Lib/stmlibs/error_utils/**
+  - Core/Lib/stmlibs/logger/**
 
 
 # When no makefile is present it will show a warning pop-up.

@@ -34,6 +34,8 @@
 #include "lem.h"
 #include "ntc.h"
 #include "data_reading_timebase.h"
+#include "errors.h"
+#include "logger_wrapper.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -106,18 +108,36 @@ int main(void)
   MX_ADC2_Init();
   MX_TIM2_Init();
   MX_TIM6_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   ntc_init();
   lem_init();
   L9963E_utils_init();
   data_reading_timebase_init();
+  error_init();
+  logger_init();
+
+  HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, GPIO_PIN_SET);
+  error_set_undervoltage(0);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // HAL_UART_Transmit(&huart1, "ciao\r\n", sizeof("ciao\r\n")-1, 100);
     data_reading_timebase_routine();
+
+    HAL_GPIO_TogglePin(LED_STAT1_GPIO_OUT_GPIO_Port, LED_STAT1_GPIO_OUT_Pin);
+    HAL_GPIO_TogglePin(LED_STAT2_GPIO_OUT_GPIO_Port, LED_STAT2_GPIO_OUT_Pin);
+    HAL_GPIO_TogglePin(LED_STAT3_GPIO_OUT_GPIO_Port, LED_STAT3_GPIO_OUT_Pin);
+    HAL_GPIO_TogglePin(LED_WARN_GPIO_OUT_GPIO_Port, LED_WARN_GPIO_OUT_Pin);
+    HAL_GPIO_TogglePin(LED_ERR_GPIO_OUT_GPIO_Port, LED_ERR_GPIO_OUT_Pin);
+
+    logger_routine();
+
+    // HAL_Delay(500);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

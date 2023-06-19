@@ -2,9 +2,9 @@
 
 #include "tim.h"
 
-#define LEM_EXP_SMOOTH_ALPHA 0.1f
+#define LEM_EXP_SMOOTH_ALPHA 1
 
-uint16_t current;
+float current;
 
 void lem_init(void) {
     current = 0;
@@ -12,11 +12,18 @@ void lem_init(void) {
     HAL_ADC_Start_IT(&hadc1);
 }
 
-uint16_t lem_get_current(void) {
+float lem_get_current(void) {
     return current;
 }
 
 void lem_new_value(uint16_t val) {
+    static uint8_t is_new = 1;
+
+    if(is_new) {
+        current = val;
+        is_new = 0;
+    }
+
     current = LEM_EXP_SMOOTH_ALPHA*val + (1-LEM_EXP_SMOOTH_ALPHA)*current;
 }
 
