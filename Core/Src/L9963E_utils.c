@@ -9,7 +9,7 @@
 
 L9963E_HandleTypeDef h9l;
 volatile uint16_t vcells[CELLS_N];
-volatile uint16_t vgpio[GPIO_N];
+volatile uint16_t vgpio[GPIOS_N];
 
 const L9963E_IfTypeDef interface = {
     .L9963E_IF_DelayMs = DelayMs,
@@ -92,12 +92,12 @@ void L9963E_utils_read_cells(uint8_t read_gpio) {
   L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO9, &voltage, &d_rdy);
   vgpio[6] = voltage;
 
-  ntc_set_ext_data(vgpio, GPIO_N, 0);
+  ntc_set_ext_data(vgpio, GPIOS_N, 0);
 }
 
-uint16_t const* L9963E_utils_get_gpio(uint8_t *len) {
+uint16_t const* L9963E_utils_get_gpios(uint8_t *len) {
   if(len)
-    *len = GPIO_N;
+    *len = GPIOS_N;
   return vgpio;
 }
 

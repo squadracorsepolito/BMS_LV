@@ -4,16 +4,24 @@
 
 #define LEM_EXP_SMOOTH_ALPHA 1
 
+float zero_offset = 2.5;
 float current;
 
 void lem_init(void) {
     current = 0;
-    HAL_TIM_Base_Start(&htim2);
     HAL_ADC_Start_IT(&hadc1);
 }
 
 float lem_get_current(void) {
     return current;
+}
+
+void lem_register_zero_offset(void) {
+    zero_offset = current * 3.3 / 4095;
+}
+
+float lem_get_current_ampere(void) {
+    return ((current * 3.3 / 4095) - zero_offset) / 0.0125;
 }
 
 void lem_new_value(uint16_t val) {

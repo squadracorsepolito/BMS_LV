@@ -4,7 +4,7 @@
 #include "logger.h"
 #define VA_ARGS(...) , ##__VA_ARGS__
 
-#define LOGGER_BUF_LEN 256
+#define LOGGER_BUF_LEN 512
 extern LOGGER_HandleTypeDef logger_handle;
 
 void logger_init(void);

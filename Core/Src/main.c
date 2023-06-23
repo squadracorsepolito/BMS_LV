@@ -110,15 +110,18 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start(&htim2);
   ntc_init();
   lem_init();
-  L9963E_utils_init();
   data_reading_timebase_init();
   error_init();
   logger_init();
 
+  while(HAL_GetTick() < 2500)
+    HAL_Delay(100);
+  lem_register_zero_offset();
   HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, GPIO_PIN_SET);
-  error_set_undervoltage(0);
+  L9963E_utils_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
