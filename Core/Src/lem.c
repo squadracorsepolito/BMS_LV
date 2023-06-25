@@ -2,7 +2,7 @@
 
 #include "tim.h"
 
-#define LEM_EXP_SMOOTH_ALPHA 1
+#define LEM_EXP_SMOOTH_ALPHA 0.1
 
 float zero_offset = 2.5;
 float current;

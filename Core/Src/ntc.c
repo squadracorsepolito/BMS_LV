@@ -3,9 +3,11 @@
 
 #include <memory.h>
 
-#define NTC_MEASURE_INTERVAL 3
+#define NTC_MEASURE_INTERVAL 50
 
 #define NTC_EXP_SMOOTH_ALPHA 0.1f
+
+// constant values by the curve fit of the ntc
 
 #define    ADCTEMP_EXT_CONST_a	121.77018530814999
 #define    ADCTEMP_EXT_CONST_b	-92.86284471272114

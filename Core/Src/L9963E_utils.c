@@ -7,9 +7,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "logger_wrapper.h"
+
 L9963E_HandleTypeDef h9l;
 volatile uint16_t vcells[CELLS_N];
 volatile uint16_t vgpio[GPIOS_N];
+volatile uint16_t vtot;
 
 const L9963E_IfTypeDef interface = {
     .L9963E_IF_DelayMs = DelayMs,
@@ -37,59 +40,93 @@ void L9963E_utils_init(void) {
 
 void L9963E_utils_read_cells(uint8_t read_gpio) {
   L9963E_StatusTypeDef e;
-  L9963E_start_conversion(&h9l, 0x1, read_gpio ? L9963E_GPIO_CONV : 0);
-
-  uint8_t c_done = 0;
+  uint32_t t = HAL_GetTick();
+  uint8_t c_done;
   do {
-    e = L9963E_poll_conversion(&h9l, 0x1, &c_done);
-  } while(!c_done || e != L9963E_OK);
+    L9963E_poll_conversion(&h9l, 0x1, &c_done);
+  } while (!c_done);
+  L9963E_start_conversion(&h9l, 0x1, read_gpio ? L9963E_GPIO_CONV : 0);
   
   uint16_t voltage = 0;
   uint8_t d_rdy = 0;
 
-  L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL1, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL1, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vcells[0] = voltage;
 
-  L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL2, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL2, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vcells[1] = voltage;
 
-  L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL3, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL3, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vcells[2] = voltage;
 
-  L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL4, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL4, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vcells[3] = voltage;
 
-  L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL12, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL12, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vcells[4] = voltage;
 
-  L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL13, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL13, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vcells[5] = voltage;
 
-  L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL14, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_cell_voltage(&h9l, 0x1, L9963E_CELL14, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vcells[6] = voltage;
 
+  do {
+    e = L9963E_read_batt_voltage(&h9l, 0x1, &voltage);
+  } while(e != L9963E_OK);
+  vtot = voltage;
+
+  logger_log(LOGGER_DEBUG, "%ld", HAL_GetTick()-t);
   if(!read_gpio)
     return;
 
-  L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO3, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO3, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vgpio[0] = voltage;
 
-  L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO4, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO4, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vgpio[1] = voltage;
 
-  L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO5, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO5, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vgpio[2] = voltage;
 
-  L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO6, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO6, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vgpio[3] = voltage;
 
-  L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO7, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO7, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vgpio[4] = voltage;
 
-  L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO8, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO8, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vgpio[5] = voltage;
 
-  L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO9, &voltage, &d_rdy);
+  do {
+    e = L9963E_read_gpio_voltage(&h9l, 0x1, L9963E_GPIO9, &voltage, &d_rdy);
+  } while(e != L9963E_OK || !d_rdy);
   vgpio[6] = voltage;
 
   ntc_set_ext_data(vgpio, GPIOS_N, 0);
@@ -105,4 +142,12 @@ uint16_t const* L9963E_utils_get_cells(uint8_t *len) {
   if(len)
     *len = CELLS_N;
   return vcells;
+}
+
+float L9963E_utils_get_cell_v(uint8_t index) {
+  return vcells[index] * 0.000089;
+}
+
+float L9963E_utils_get_batt_v(void) {
+  return vtot * 0.000089;
 }

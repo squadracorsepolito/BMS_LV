@@ -16,6 +16,7 @@ ERROR_UTILS_HandleTypeDef error_h;
 ERROR_UTILS_ErrorInstanceTypeDef undervoltage_instances[7];
 ERROR_UTILS_ErrorInstanceTypeDef overvoltage_instances[7];
 ERROR_UTILS_ErrorInstanceTypeDef overtemp_instances[12];
+
 ERROR_UTILS_ErrorTypeDef errors[] = {
     [ERRORS_UNDERVOLTAGE] = {.expiry_callback = undervoltage_exp_cb, .expiry_delay_ms = 500, .instances = undervoltage_instances, .instances_length = 7, .toggle_callback = undervoltage_toggle_cb},
     [ERRORS_OVERVOLTAGE] = {.expiry_callback = overvoltage_exp_cb, .expiry_delay_ms = 500, .instances = overvoltage_instances, .instances_length = 7, .toggle_callback = overvoltage_toggle_cb},
@@ -70,4 +71,9 @@ void overvoltage_toggle_cb(uint8_t error_index, uint8_t instance_index) {
 void overtemp_exp_cb(uint8_t error_index, uint8_t instance_index) {
 }
 void overtemp_toggle_cb(uint8_t error_index, uint8_t instance_index) {
+}
+
+
+void error_timerElapsed_irq(TIM_HandleTypeDef *htim) {
+    ERROR_UTILS_TimerElapsedCallback(&error_h, htim);
 }

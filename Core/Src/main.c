@@ -36,6 +36,8 @@
 #include "data_reading_timebase.h"
 #include "errors.h"
 #include "logger_wrapper.h"
+#include "can_utils.h"
+#include "can_send_timebase.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -109,18 +111,22 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM6_Init();
   MX_TIM7_Init();
+  MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim2);
   ntc_init();
   lem_init();
   data_reading_timebase_init();
+  can_send_timebase_init();
   error_init();
   logger_init();
+  can_init();
 
-  while(HAL_GetTick() < 2500)
+  while(HAL_GetTick() < 500)
     HAL_Delay(100);
   lem_register_zero_offset();
   HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, GPIO_PIN_SET);
+
   L9963E_utils_init();
   /* USER CODE END 2 */
 
@@ -128,8 +134,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // HAL_UART_Transmit(&huart1, "ciao\r\n", sizeof("ciao\r\n")-1, 100);
     data_reading_timebase_routine();
+    can_send_timebase_routine();
 
     HAL_GPIO_TogglePin(LED_STAT1_GPIO_OUT_GPIO_Port, LED_STAT1_GPIO_OUT_Pin);
     HAL_GPIO_TogglePin(LED_STAT2_GPIO_OUT_GPIO_Port, LED_STAT2_GPIO_OUT_Pin);

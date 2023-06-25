@@ -2,7 +2,7 @@
 #define ERRORS_H
 
 #include "error_utils.h"
-extern ERROR_UTILS_HandleTypeDef error_h;
+#include "tim.h"
 
 typedef enum {
     ERRORS_UNDERVOLTAGE,
@@ -12,6 +12,7 @@ typedef enum {
 } ERRORS_TypeDef;
 
 void error_init(void);
+void error_timerElapsed_irq(TIM_HandleTypeDef *htim);
 void error_set_undervoltage(uint8_t index);
 void error_set_overvoltage(uint8_t index);
 void error_set_overtemp(uint8_t index);

@@ -45,6 +45,8 @@ Core/Lib/stmlibs/timer_utils/timer_utils.c \
 Core/Src/L9963E_utils.c \
 Core/Src/adc.c \
 Core/Src/can.c \
+Core/Src/can_send_timebase.c \
+Core/Src/can_utils.c \
 Core/Src/data_reading_timebase.c \
 Core/Src/dma.c \
 Core/Src/eeprom/eeprom-config.c \
@@ -55,6 +57,7 @@ Core/Src/lem.c \
 Core/Src/logger_wrapper.c \
 Core/Src/main.c \
 Core/Src/ntc.c \
+Core/Src/sc22_evo_canlv.c \
 Core/Src/spi.c \
 Core/Src/stm32_if.c \
 Core/Src/stm32f4xx_hal_msp.c \
