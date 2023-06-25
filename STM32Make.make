@@ -36,12 +36,6 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Lib/L9963_lib/src/L9963E.c \
-Core/Lib/L9963_lib/src/L9963E_drv.c \
-Core/Lib/stmlibs/error_utils/error_utils.c \
-Core/Lib/stmlibs/logger/logger.c \
-Core/Lib/stmlibs/timebase/timebase.c \
-Core/Lib/stmlibs/timer_utils/timer_utils.c \
 Core/Src/L9963E_utils.c \
 Core/Src/adc.c \
 Core/Src/can.c \
@@ -85,7 +79,13 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c \
+Lib/L9963E_lib/src/L9963E.c \
+Lib/L9963E_lib/src/L9963E_drv.c \
+Lib/stmlibs/error_utils/error_utils.c \
+Lib/stmlibs/logger/logger.c \
+Lib/stmlibs/timebase/timebase.c \
+Lib/stmlibs/timer_utils/timer_utils.c
 
 
 CPP_SOURCES = \
@@ -158,25 +158,25 @@ AS_INCLUDES = \
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
--ICore/Lib/L9963_lib/inc \
--ICore/Lib/L9963_lib/interface_example \
--ICore/Lib/stmlibs \
--ICore/Lib/stmlibs/circular_buffer \
--ICore/Lib/stmlibs/critical_section \
--ICore/Lib/stmlibs/error_utils \
--ICore/Lib/stmlibs/fsm \
--ICore/Lib/stmlibs/lock \
--ICore/Lib/stmlibs/logger \
--ICore/Lib/stmlibs/longcounter \
--ICore/Lib/stmlibs/pwm \
--ICore/Lib/stmlibs/timebase \
--ICore/Lib/stmlibs/timer_utils \
 -ICore/Src/eeprom \
 -ICore/Src/eeprom/m95256 \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
--IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy
+-IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
+-ILib/L9963E_lib/inc \
+-ILib/L9963E_lib/interface_example \
+-ILib/stmlibs \
+-ILib/stmlibs/circular_buffer \
+-ILib/stmlibs/critical_section \
+-ILib/stmlibs/error_utils \
+-ILib/stmlibs/fsm \
+-ILib/stmlibs/lock \
+-ILib/stmlibs/logger \
+-ILib/stmlibs/longcounter \
+-ILib/stmlibs/pwm \
+-ILib/stmlibs/timebase \
+-ILib/stmlibs/timer_utils
 
 
 
@@ -292,6 +292,30 @@ clean:
 #######################################
 
 
+
+
+#######################################
+# srec_output
+#######################################
+srec_output: $(BUILD_DIR)/$(TARGET)_shifted.bin
+	bin2srec -a $$(grep 'FLASH (rx)      : ORIGIN =' STM32F446RETx_FLASH_shifted.ld | awk '{print $$6}' | sed 's/.$$//') -i $(BUILD_DIR)/$(TARGET)_shifted.bin -o $(BUILD_DIR)/$(TARGET)_shifted.srec
+      
+
+
+#######################################
+# $(BUILD_DIR)/$(TARGET)_shifted.elf
+#######################################
+$(BUILD_DIR)/$(TARGET)_shifted.elf: $(OBJECTS) STM32Make.make
+	$(CC) $(OBJECTS) $(MCU) $(ADDITIONALLDFLAGS) -TSTM32F446RETx_FLASH_shifted.ld $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections -o $@
+      
+
+
+#######################################
+# $(BUILD_DIR)/$(TARGET)_shifted.bin
+#######################################
+$(BUILD_DIR)/$(TARGET)_shifted.bin: $(BUILD_DIR)/$(TARGET)_shifted.elf | $(BUILD_DIR)
+	$(BIN) $< $@
+      
 	
 #######################################
 # dependencies

@@ -72,10 +72,9 @@ excludes:
 includeDirectories: 
   - Inc/**
   - Core/Inc/**
-  - Core/Lib/**
+  - Lib/**
   - Src/**
   - Core/Src/**
-  - Core/Lib/**
 
 
 # Files that should be included in the compilation.
@@ -86,11 +85,11 @@ includeDirectories:
 sourceFiles:  
   - Src/**
   - Core/Src/**
-  - Core/Lib/L9963_lib/src/**
-  - Core/Lib/stmlibs/timer_utils/**
-  - Core/Lib/stmlibs/timebase/**
-  - Core/Lib/stmlibs/error_utils/**
-  - Core/Lib/stmlibs/logger/**
+  - Lib/L9963E_lib/src/**
+  - Lib/stmlibs/timer_utils/**
+  - Lib/stmlibs/timebase/**
+  - Lib/stmlibs/error_utils/**
+  - Lib/stmlibs/logger/**
 
 
 # When no makefile is present it will show a warning pop-up.
@@ -101,9 +100,17 @@ suppressMakefileWarning: false
 # Here custom makefile rules can be added to the STM32Make.make file
 # an example of how this can be used is commented out below.
 customMakefileRules:
-# - command: sayhello
-#   rule: echo "hello"
-#   dependsOn: $(BUILD_DIR)/$(TARGET).elf # can be left out    
+- command: srec_output
+  rule: "bin2srec -a $$(grep 'FLASH (rx)      : ORIGIN =' STM32F446RETx_FLASH_shifted.ld | awk '{print $$6}' | sed 's/.$$//') -i $(BUILD_DIR)/$(TARGET)_shifted.bin -o $(BUILD_DIR)/$(TARGET)_shifted.srec"
+  dependsOn: $(BUILD_DIR)/$(TARGET)_shifted.bin # can be left out    
+- command: $(BUILD_DIR)/$(TARGET)_shifted.elf
+  rule: "$(CC) $(OBJECTS) $(MCU) $(ADDITIONALLDFLAGS) -TSTM32F446RETx_FLASH_shifted.ld $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections -o $@"
+  dependsOn: $(OBJECTS) STM32Make.make
+- command: $(BUILD_DIR)/$(TARGET)_shifted.bin
+  rule: $(BIN) $< $@
+  dependsOn: $(BUILD_DIR)/$(TARGET)_shifted.elf | $(BUILD_DIR)
+
+
 
 # Additional flags which will be used when invoking the make command
 makeFlags:
