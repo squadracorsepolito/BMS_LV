@@ -1,0 +1,19 @@
+{
+    "cortex-debug.armToolchainPath": "/usr/bin",
+    "cortex-debug.openocdPath": "/usr/bin/openocd",
+    "files.associations": {
+        "m95256.h": "c",
+        "l9963e.h": "c",
+        "data_reading_timebase.h": "c",
+        "l9963e_utils.h": "c",
+        "ntc.h": "c",
+        "logger.h": "c",
+        "errors.h": "c",
+        "lem.h": "c",
+        "sc22_evo_canlv.h": "c",
+        "timebase.h": "c",
+        "tim.h": "c",
+        "can_send_timebase.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": false
+}

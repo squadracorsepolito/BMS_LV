@@ -1,0 +1,110 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build STM",
+			"type": "process",
+			"command": "${command:stm32-for-vscode.build}",
+			"options": {
+				"cwd": "${workspaceRoot}"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Build Clean STM",
+			"type": "process",
+			"command": "${command:stm32-for-vscode.cleanBuild}",
+			"options": {
+				"cwd": "${workspaceRoot}"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Flash STM",
+			"type": "process",
+			"command": "${command:stm32-for-vscode.flash}",
+			"options": {
+				"cwd": "${workspaceRoot}"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Build Srec",
+			"type": "process",
+			"command": "/usr/bin/make",
+			"args": [
+				"-f",
+				"STM32Make.make",
+				"can_build"
+			],
+			"options": {
+				"cwd": "${workspaceRoot}"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Flash bootloader",
+			"type": "process",
+			"command": "/usr/bin/make",
+			"args": [
+				"-f",
+				"STM32Make.make",
+				"flash"
+			],
+			"options": {
+				"cwd": "${workspaceRoot}/openblt_f446re"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Flash Program via CAN",
+			"type": "process",
+			"command": "/usr/bin/make",
+			"args": [
+				"-f",
+				"STM32Make.make",
+				"can_flash"
+			],
+			"options": {
+				"cwd": "${workspaceRoot}"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		}
+	]
+}

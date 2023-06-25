@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "name": "STM32",
+      "includePath": [
+        "Core/Inc",
+        "Core/Src/eeprom",
+        "Core/Src/eeprom/m95256",
+        "Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+        "Drivers/CMSIS/Include",
+        "Drivers/STM32F4xx_HAL_Driver/Inc",
+        "Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+        "Lib/L9963E_lib/inc",
+        "Lib/L9963E_lib/interface_example",
+        "Lib/stmlibs",
+        "Lib/stmlibs/circular_buffer",
+        "Lib/stmlibs/critical_section",
+        "Lib/stmlibs/error_utils",
+        "Lib/stmlibs/fsm",
+        "Lib/stmlibs/lock",
+        "Lib/stmlibs/logger",
+        "Lib/stmlibs/longcounter",
+        "Lib/stmlibs/pwm",
+        "Lib/stmlibs/timebase",
+        "Lib/stmlibs/timer_utils"
+      ],
+      "defines": [
+        "STM32F446xx",
+        "USE_HAL_DRIVER"
+      ],
+      "compilerPath": "/usr/bin/arm-none-eabi-gcc"
+    }
+  ],
+  "version": 4
+}

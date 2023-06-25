@@ -295,10 +295,18 @@ clean:
 
 
 #######################################
-# srec_output
+# can_build
 #######################################
-srec_output: $(BUILD_DIR)/$(TARGET)_shifted.bin
-	bin2srec -a $$(grep 'FLASH (rx)      : ORIGIN =' STM32F446RETx_FLASH_shifted.ld | awk '{print $$6}' | sed 's/.$$//') -i $(BUILD_DIR)/$(TARGET)_shifted.bin -o $(BUILD_DIR)/$(TARGET)_shifted.srec
+can_build: $(BUILD_DIR)/$(TARGET)_shifted.sx
+	
+      
+
+
+#######################################
+# $(BUILD_DIR)/$(TARGET)_shifted.sx
+#######################################
+$(BUILD_DIR)/$(TARGET)_shifted.sx: $(BUILD_DIR)/$(TARGET)_shifted.bin
+	bin2srec -a $$(grep 'FLASH (rx)      : ORIGIN =' STM32F446RETx_FLASH_shifted.ld | awk '{print $$6}' | sed 's/.$$//') -i $(BUILD_DIR)/$(TARGET)_shifted.bin -o $(BUILD_DIR)/$(TARGET)_shifted.sx
       
 
 
@@ -315,6 +323,14 @@ $(BUILD_DIR)/$(TARGET)_shifted.elf: $(OBJECTS) STM32Make.make
 #######################################
 $(BUILD_DIR)/$(TARGET)_shifted.bin: $(BUILD_DIR)/$(TARGET)_shifted.elf | $(BUILD_DIR)
 	$(BIN) $< $@
+      
+
+
+#######################################
+# can_flash
+#######################################
+can_flash: $(BUILD_DIR)/$(TARGET)_shifted.sx
+	bootcommander -t=xcp_can -d=can0 -b=1000000 -tid=7h -rid=181h $(BUILD_DIR)/$(TARGET)_shifted.sx
       
 	
 #######################################
