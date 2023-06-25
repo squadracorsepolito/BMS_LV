@@ -17,10 +17,10 @@ void can_tx_header_init() {
 void can_init(void) {
     CAN_FilterTypeDef filter;
     filter.FilterMode       = CAN_FILTERMODE_IDMASK;
-    filter.FilterIdLow      = ((1U << 11) - 1) << 5;                 // Take all ids from 0
-    filter.FilterIdHigh     = ((1U << 11) - 1) << 5;  // to 2^11 - 1
-    filter.FilterMaskIdHigh = 0 << 5;                 // Don't care on can id bits
-    filter.FilterMaskIdLow  = 0 << 5;                 // Don't care on can id bits
+    filter.FilterIdLow      = 0x7 << 5;                 // Take all ids from 0
+    filter.FilterIdHigh     = 0x7 << 5;  // to 2^11 - 1
+    filter.FilterMaskIdHigh = 0x7 << 5;                 // Don't care on can id bits
+    filter.FilterMaskIdLow  = 0x7 << 5;                 // Don't care on can id bits
     /* HAL considers IdLow and IdHigh not as just the ID of the can message but
         as the combination of: 
         STDID + RTR + IDE + 4 most significant bits of EXTID
@@ -126,4 +126,15 @@ void can_send_msg(uint32_t id) {
 
 void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan) {
     logger_log(LOGGER_ERROR, "sborato");
+}
+
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
+    CAN_RxHeaderTypeDef rx_header;
+    uint8_t buffer[8] = {0};
+
+    if(HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, buffer) == HAL_OK) {
+        if(rx_header.StdId == 0x007) {
+            NVIC_SystemReset();
+        }
+    }
 }

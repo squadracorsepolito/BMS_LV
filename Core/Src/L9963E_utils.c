@@ -40,7 +40,6 @@ void L9963E_utils_init(void) {
 
 void L9963E_utils_read_cells(uint8_t read_gpio) {
   L9963E_StatusTypeDef e;
-  uint32_t t = HAL_GetTick();
   uint8_t c_done;
   do {
     L9963E_poll_conversion(&h9l, 0x1, &c_done);
@@ -90,7 +89,6 @@ void L9963E_utils_read_cells(uint8_t read_gpio) {
   } while(e != L9963E_OK);
   vtot = voltage;
 
-  logger_log(LOGGER_DEBUG, "%ld", HAL_GetTick()-t);
   if(!read_gpio)
     return;
 
