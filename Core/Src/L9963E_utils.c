@@ -32,6 +32,14 @@ void L9963E_utils_init(void) {
   gpio9_3_conf_reg.GPIO9_3_CONF.GPIO8_CONFIG = 0;
   L9963E_DRV_reg_write(&(h9l.drv_handle), L9963E_DEVICE_BROADCAST, L9963E_GPIO9_3_CONF_ADDR, &gpio9_3_conf_reg, 10);
 
+  L9963E_RegisterUnionTypeDef vcell_thresh_uv_ov_reg = {.generic = L9963E_VCELL_THRESH_UV_OV_DEFAULT};
+  vcell_thresh_uv_ov_reg.VCELL_THRESH_UV_OV.threshVcellOV = 0xff;
+  L9963E_DRV_reg_write(&(h9l.drv_handle), L9963E_DEVICE_BROADCAST, L9963E_VCELL_THRESH_UV_OV_ADDR, &vcell_thresh_uv_ov_reg, 10);
+
+  L9963E_RegisterUnionTypeDef vbat_sum_th_reg = {.generic = L9963E_VBATT_SUM_TH_DEFAULT};
+  vbat_sum_th_reg.VBATT_SUM_TH.VBATT_SUM_OV_TH = 0xff;
+  L9963E_DRV_reg_write(&(h9l.drv_handle), L9963E_DEVICE_BROADCAST, L9963E_VBATT_SUM_TH_ADDR, &vbat_sum_th_reg, 10);
+
   L9963E_enable_vref(&h9l, L9963E_DEVICE_BROADCAST, 0);
   
   L9963E_setCommTimeout(&h9l, _256MS, L9963E_DEVICE_BROADCAST, 0);
@@ -143,9 +151,9 @@ uint16_t const* L9963E_utils_get_cells(uint8_t *len) {
 }
 
 float L9963E_utils_get_cell_v(uint8_t index) {
-  return vcells[index] * 0.000089;
+  return vcells[index] * 89e-6f;
 }
 
 float L9963E_utils_get_batt_v(void) {
-  return vtot * 0.000089;
+  return vtot * 1.33e-3f;
 }
