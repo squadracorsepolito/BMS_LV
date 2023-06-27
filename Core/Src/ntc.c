@@ -53,6 +53,11 @@ void ntc_set_ext_data(uint16_t const *data, uint8_t len, uint8_t offset) {
 }
 
 void ntc_adc_callback(ADC_HandleTypeDef *hadc) {
+    static uint8_t is_first = 1;
+    if(is_first) {
+        is_first = 0;
+        memcpy(ntc_int_data, ntc_dma_data, sizeof(ntc_int_data));
+    }
     for(uint8_t i=0; i<NTC_INT_ADC_N; ++i) {
         ntc_int_data[i] = NTC_EXP_SMOOTH_ALPHA*ntc_dma_data[i] + (1-NTC_EXP_SMOOTH_ALPHA)*ntc_int_data[i];
     }

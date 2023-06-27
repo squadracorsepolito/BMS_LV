@@ -140,7 +140,7 @@ int main(void)
     data_reading_timebase_routine();
     can_send_timebase_routine();
 
-    battery_v = L9963E_utils_get_batt_v();
+    battery_v = L9963E_utils_get_batt_mv();
     
     if(battery_v > 21.56) {
       HAL_GPIO_WritePin(LED_WARN_GPIO_OUT_GPIO_Port, LED_WARN_GPIO_OUT_Pin, GPIO_PIN_SET);

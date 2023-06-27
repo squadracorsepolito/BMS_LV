@@ -55,7 +55,8 @@ HAL_StatusTypeDef can_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, CAN_TxHeade
 void can_send_msg(uint32_t id) {
     uint8_t buffer[8] = {0};
     union {
-        struct sc22_evo_canlv_bmslv_temp_t bmslv_temp;
+        struct sc22_evo_canlv_bmslv_temp1_t bmslv_temp1;
+        struct sc22_evo_canlv_bmslv_temp2_t bmslv_temp2;
         struct sc22_evo_canlv_bmslv_cell_voltage1_t bmslv_cell_voltage1;
         struct sc22_evo_canlv_bmslv_cell_voltage2_t bmslv_cell_voltage2;
         struct sc22_evo_canlv_bmslv_battery_pack_general_t bmslv_battery_pack_general;
@@ -66,49 +67,48 @@ void can_send_msg(uint32_t id) {
 
     switch (id)
     {
-    case SC22_EVO_CANLV_BMSLV_TEMP_FRAME_ID:
-        msgs.bmslv_temp.ntc_is_first_message = 1;
-        msgs.bmslv_temp.ntc1_resistance = sc22_evo_canlv_bmslv_temp_ntc1_resistance_encode(ntc_get_ext_resistance(0));
-        msgs.bmslv_temp.ntc2_resistance = sc22_evo_canlv_bmslv_temp_ntc2_resistance_encode(ntc_get_ext_resistance(1));
-        msgs.bmslv_temp.ntc3_resistance = sc22_evo_canlv_bmslv_temp_ntc3_resistance_encode(ntc_get_ext_resistance(2));
-        msgs.bmslv_temp.ntc4_resistance = sc22_evo_canlv_bmslv_temp_ntc4_resistance_encode(ntc_get_ext_resistance(3));
-        msgs.bmslv_temp.ntc5_resistance = sc22_evo_canlv_bmslv_temp_ntc5_resistance_encode(ntc_get_ext_resistance(4));
-        msgs.bmslv_temp.ntc6_resistance = sc22_evo_canlv_bmslv_temp_ntc6_resistance_encode(ntc_get_ext_resistance(5));
+    case SC22_EVO_CANLV_BMSLV_TEMP1_FRAME_ID:
+        msgs.bmslv_temp2.ntc1_resistance = sc22_evo_canlv_bmslv_temp2_ntc1_resistance_encode(ntc_get_ext_resistance(0));
+        msgs.bmslv_temp2.ntc2_resistance = sc22_evo_canlv_bmslv_temp2_ntc2_resistance_encode(ntc_get_ext_resistance(1));
+        msgs.bmslv_temp2.ntc3_resistance = sc22_evo_canlv_bmslv_temp2_ntc3_resistance_encode(ntc_get_ext_resistance(2));
+        msgs.bmslv_temp2.ntc4_resistance = sc22_evo_canlv_bmslv_temp2_ntc4_resistance_encode(ntc_get_ext_resistance(3));
+        msgs.bmslv_temp2.ntc5_resistance = sc22_evo_canlv_bmslv_temp2_ntc5_resistance_encode(ntc_get_ext_resistance(4));
+        msgs.bmslv_temp2.ntc6_resistance = sc22_evo_canlv_bmslv_temp2_ntc6_resistance_encode(ntc_get_ext_resistance(5));
 
-        tx_header.DLC = sc22_evo_canlv_bmslv_temp_pack(buffer, &msgs.bmslv_temp, SC22_EVO_CANLV_BMSLV_TEMP_LENGTH);
+        tx_header.DLC = sc22_evo_canlv_bmslv_temp1_pack(buffer, &msgs.bmslv_temp1, SC22_EVO_CANLV_BMSLV_TEMP1_LENGTH);
         can_send(&hcan1, buffer, &tx_header);
+        break;
+    case SC22_EVO_CANLV_BMSLV_TEMP2_FRAME_ID:
+        msgs.bmslv_temp2.ntc1_resistance = sc22_evo_canlv_bmslv_temp2_ntc1_resistance_encode(ntc_get_ext_resistance(6));
+        msgs.bmslv_temp2.ntc2_resistance = sc22_evo_canlv_bmslv_temp2_ntc2_resistance_encode(ntc_get_int_resistance(0));
+        msgs.bmslv_temp2.ntc3_resistance = sc22_evo_canlv_bmslv_temp2_ntc3_resistance_encode(ntc_get_int_resistance(1));
+        msgs.bmslv_temp2.ntc4_resistance = sc22_evo_canlv_bmslv_temp2_ntc4_resistance_encode(ntc_get_int_resistance(2));
+        msgs.bmslv_temp2.ntc5_resistance = sc22_evo_canlv_bmslv_temp2_ntc5_resistance_encode(ntc_get_int_resistance(3));
+        msgs.bmslv_temp2.ntc6_resistance = sc22_evo_canlv_bmslv_temp2_ntc6_resistance_encode(ntc_get_int_resistance(4));
 
-        msgs.bmslv_temp.ntc_is_first_message = 0;
-        msgs.bmslv_temp.ntc1_resistance = sc22_evo_canlv_bmslv_temp_ntc1_resistance_encode(ntc_get_ext_resistance(6));
-        msgs.bmslv_temp.ntc2_resistance = sc22_evo_canlv_bmslv_temp_ntc2_resistance_encode(ntc_get_int_resistance(0));
-        msgs.bmslv_temp.ntc3_resistance = sc22_evo_canlv_bmslv_temp_ntc3_resistance_encode(ntc_get_int_resistance(1));
-        msgs.bmslv_temp.ntc4_resistance = sc22_evo_canlv_bmslv_temp_ntc4_resistance_encode(ntc_get_int_resistance(2));
-        msgs.bmslv_temp.ntc5_resistance = sc22_evo_canlv_bmslv_temp_ntc5_resistance_encode(ntc_get_int_resistance(3));
-        msgs.bmslv_temp.ntc6_resistance = sc22_evo_canlv_bmslv_temp_ntc6_resistance_encode(ntc_get_int_resistance(4));
-
-        tx_header.DLC = sc22_evo_canlv_bmslv_temp_pack(buffer, &msgs.bmslv_temp, SC22_EVO_CANLV_BMSLV_TEMP_LENGTH);
+        tx_header.DLC = sc22_evo_canlv_bmslv_temp2_pack(buffer, &msgs.bmslv_temp2, SC22_EVO_CANLV_BMSLV_TEMP2_LENGTH);
         can_send(&hcan1, buffer, &tx_header);
         break;
     case SC22_EVO_CANLV_BMSLV_CELL_VOLTAGE1_FRAME_ID:
-        msgs.bmslv_cell_voltage1.cell_1_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_1_voltage_m_v_encode(L9963E_utils_get_cell_v(0));
-        msgs.bmslv_cell_voltage1.cell_2_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_2_voltage_m_v_encode(L9963E_utils_get_cell_v(1));
-        msgs.bmslv_cell_voltage1.cell_3_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_3_voltage_m_v_encode(L9963E_utils_get_cell_v(2));
-        msgs.bmslv_cell_voltage1.cell_4_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_4_voltage_m_v_encode(L9963E_utils_get_cell_v(3));
+        msgs.bmslv_cell_voltage1.cell_1_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_1_voltage_m_v_encode(L9963E_utils_get_cell_mv(0));
+        msgs.bmslv_cell_voltage1.cell_2_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_2_voltage_m_v_encode(L9963E_utils_get_cell_mv(1));
+        msgs.bmslv_cell_voltage1.cell_3_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_3_voltage_m_v_encode(L9963E_utils_get_cell_mv(2));
+        msgs.bmslv_cell_voltage1.cell_4_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_4_voltage_m_v_encode(L9963E_utils_get_cell_mv(3));
 
         tx_header.DLC = sc22_evo_canlv_bmslv_cell_voltage1_pack(buffer, &msgs.bmslv_cell_voltage1, SC22_EVO_CANLV_BMSLV_CELL_VOLTAGE1_LENGTH);
         can_send(&hcan1, buffer, &tx_header);
         break;
     case SC22_EVO_CANLV_BMSLV_CELL_VOLTAGE2_FRAME_ID:
-        msgs.bmslv_cell_voltage2.cell_5_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_1_voltage_m_v_encode(L9963E_utils_get_cell_v(4));
-        msgs.bmslv_cell_voltage2.cell_6_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_2_voltage_m_v_encode(L9963E_utils_get_cell_v(5));
-        msgs.bmslv_cell_voltage2.cell_7_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_3_voltage_m_v_encode(L9963E_utils_get_cell_v(6));
+        msgs.bmslv_cell_voltage2.cell_5_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_1_voltage_m_v_encode(L9963E_utils_get_cell_mv(4));
+        msgs.bmslv_cell_voltage2.cell_6_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_2_voltage_m_v_encode(L9963E_utils_get_cell_mv(5));
+        msgs.bmslv_cell_voltage2.cell_7_voltage_m_v = sc22_evo_canlv_bmslv_cell_voltage1_cell_3_voltage_m_v_encode(L9963E_utils_get_cell_mv(6));
 
         tx_header.DLC = sc22_evo_canlv_bmslv_cell_voltage2_pack(buffer, &msgs.bmslv_cell_voltage2, SC22_EVO_CANLV_BMSLV_CELL_VOLTAGE2_LENGTH);
         can_send(&hcan1, buffer, &tx_header);
         break;
     case SC22_EVO_CANLV_BMSLV_BATTERY_PACK_GENERAL_FRAME_ID:
         msgs.bmslv_battery_pack_general.current_sensor_voltage = sc22_evo_canlv_bmslv_battery_pack_general_current_sensor_voltage_encode(lem_get_current_ampere());
-        msgs.bmslv_battery_pack_general.lv_total_voltage_m_v = 0xdead;
+        msgs.bmslv_battery_pack_general.lv_total_voltage_m_v = sc22_evo_canlv_bmslv_battery_pack_general_lv_total_voltage_m_v_encode(L9963E_utils_get_batt_mv());
 
         tx_header.DLC = sc22_evo_canlv_bmslv_battery_pack_general_pack(buffer, &msgs.bmslv_battery_pack_general, SC22_EVO_CANLV_BMSLV_BATTERY_PACK_GENERAL_LENGTH);
         can_send(&hcan1, buffer, &tx_header);

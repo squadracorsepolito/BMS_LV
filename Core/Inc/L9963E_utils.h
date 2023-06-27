@@ -13,7 +13,7 @@ void L9963E_utils_init(void);
 void L9963E_utils_read_cells(uint8_t read_gpio);
 uint16_t const* L9963E_utils_get_gpios(uint8_t *len);
 uint16_t const* L9963E_utils_get_cells(uint8_t *len);
-float L9963E_utils_get_cell_v(uint8_t index);
-float L9963E_utils_get_batt_v(void);
+float L9963E_utils_get_cell_mv(uint8_t index);
+float L9963E_utils_get_batt_mv(void);
 
 #endif // L9963E_UTILS_H

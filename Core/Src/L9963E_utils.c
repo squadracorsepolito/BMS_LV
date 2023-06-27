@@ -150,10 +150,10 @@ uint16_t const* L9963E_utils_get_cells(uint8_t *len) {
   return vcells;
 }
 
-float L9963E_utils_get_cell_v(uint8_t index) {
-  return vcells[index] * 89e-6f;
+float L9963E_utils_get_cell_mv(uint8_t index) {
+  return vcells[index] * 89e-3f;
 }
 
-float L9963E_utils_get_batt_v(void) {
-  return vtot * 1.33e-3f;
+float L9963E_utils_get_batt_mv(void) {
+  return vtot * 1.33f;
 }
