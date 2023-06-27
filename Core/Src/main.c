@@ -128,6 +128,9 @@ int main(void)
   HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, GPIO_PIN_SET);
 
   L9963E_utils_init();
+
+  float battery_v;
+  HAL_GPIO_WritePin(LED_ERR_GPIO_OUT_GPIO_Port, LED_ERR_GPIO_OUT_Pin, GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,12 +140,33 @@ int main(void)
     data_reading_timebase_routine();
     can_send_timebase_routine();
 
-    HAL_GPIO_TogglePin(LED_STAT1_GPIO_OUT_GPIO_Port, LED_STAT1_GPIO_OUT_Pin);
-    HAL_GPIO_TogglePin(LED_STAT2_GPIO_OUT_GPIO_Port, LED_STAT2_GPIO_OUT_Pin);
-    HAL_GPIO_TogglePin(LED_STAT3_GPIO_OUT_GPIO_Port, LED_STAT3_GPIO_OUT_Pin);
-    HAL_GPIO_TogglePin(LED_WARN_GPIO_OUT_GPIO_Port, LED_WARN_GPIO_OUT_Pin);
-    HAL_GPIO_TogglePin(LED_ERR_GPIO_OUT_GPIO_Port, LED_ERR_GPIO_OUT_Pin);
+    battery_v = L9963E_utils_get_batt_v();
+    
+    if(battery_v > 21.56) {
+      HAL_GPIO_WritePin(LED_WARN_GPIO_OUT_GPIO_Port, LED_WARN_GPIO_OUT_Pin, GPIO_PIN_SET);
+    } else {
+      HAL_GPIO_WritePin(LED_WARN_GPIO_OUT_GPIO_Port, LED_WARN_GPIO_OUT_Pin, GPIO_PIN_RESET);
+    }
 
+    if(battery_v > 23.52) {
+      HAL_GPIO_WritePin(LED_STAT3_GPIO_OUT_GPIO_Port, LED_STAT3_GPIO_OUT_Pin, GPIO_PIN_SET);
+    } else {
+      HAL_GPIO_WritePin(LED_STAT3_GPIO_OUT_GPIO_Port, LED_STAT3_GPIO_OUT_Pin, GPIO_PIN_RESET);
+    }
+
+    if(battery_v > 25.48) {
+      HAL_GPIO_WritePin(LED_STAT2_GPIO_OUT_GPIO_Port, LED_STAT2_GPIO_OUT_Pin, GPIO_PIN_SET);
+    } else {
+      HAL_GPIO_WritePin(LED_STAT2_GPIO_OUT_GPIO_Port, LED_STAT2_GPIO_OUT_Pin, GPIO_PIN_RESET);
+    }
+
+    if(battery_v > 27.44) {
+      HAL_GPIO_WritePin(LED_STAT1_GPIO_OUT_GPIO_Port, LED_STAT1_GPIO_OUT_Pin, GPIO_PIN_SET);
+    } else {
+      HAL_GPIO_WritePin(LED_STAT1_GPIO_OUT_GPIO_Port, LED_STAT1_GPIO_OUT_Pin, GPIO_PIN_RESET);
+    }
+    
+    logger_log(LOGGER_INFO, "battery_v: %f", battery_v);
     logger_routine();
 
     // HAL_Delay(500);

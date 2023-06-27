@@ -67,23 +67,24 @@ void can_send_msg(uint32_t id) {
     switch (id)
     {
     case SC22_EVO_CANLV_BMSLV_TEMP_FRAME_ID:
-        msgs.bmslv_temp.ntc_is_first_message=1,
-        msgs.bmslv_temp.ntc1_resistance = sc22_evo_canlv_bmslv_temp_ntc1_resistance_encode(ntc_get_ext_resistance(0)),
-        msgs.bmslv_temp.ntc2_resistance = sc22_evo_canlv_bmslv_temp_ntc2_resistance_encode(ntc_get_ext_resistance(1)),
-        msgs.bmslv_temp.ntc3_resistance = sc22_evo_canlv_bmslv_temp_ntc3_resistance_encode(ntc_get_ext_resistance(2)),
-        msgs.bmslv_temp.ntc4_resistance = sc22_evo_canlv_bmslv_temp_ntc4_resistance_encode(ntc_get_ext_resistance(3)),
-        msgs.bmslv_temp.ntc5_resistance = sc22_evo_canlv_bmslv_temp_ntc5_resistance_encode(ntc_get_ext_resistance(4)),
-        msgs.bmslv_temp.ntc6_resistance = sc22_evo_canlv_bmslv_temp_ntc6_resistance_encode(ntc_get_ext_resistance(5)),
+        msgs.bmslv_temp.ntc_is_first_message = 1;
+        msgs.bmslv_temp.ntc1_resistance = sc22_evo_canlv_bmslv_temp_ntc1_resistance_encode(ntc_get_ext_resistance(0));
+        msgs.bmslv_temp.ntc2_resistance = sc22_evo_canlv_bmslv_temp_ntc2_resistance_encode(ntc_get_ext_resistance(1));
+        msgs.bmslv_temp.ntc3_resistance = sc22_evo_canlv_bmslv_temp_ntc3_resistance_encode(ntc_get_ext_resistance(2));
+        msgs.bmslv_temp.ntc4_resistance = sc22_evo_canlv_bmslv_temp_ntc4_resistance_encode(ntc_get_ext_resistance(3));
+        msgs.bmslv_temp.ntc5_resistance = sc22_evo_canlv_bmslv_temp_ntc5_resistance_encode(ntc_get_ext_resistance(4));
+        msgs.bmslv_temp.ntc6_resistance = sc22_evo_canlv_bmslv_temp_ntc6_resistance_encode(ntc_get_ext_resistance(5));
+
         tx_header.DLC = sc22_evo_canlv_bmslv_temp_pack(buffer, &msgs.bmslv_temp, SC22_EVO_CANLV_BMSLV_TEMP_LENGTH);
         can_send(&hcan1, buffer, &tx_header);
 
-        msgs.bmslv_temp.ntc_is_first_message=0,
-        msgs.bmslv_temp.ntc1_resistance = sc22_evo_canlv_bmslv_temp_ntc1_resistance_encode(ntc_get_ext_resistance(6)),
-        msgs.bmslv_temp.ntc2_resistance = sc22_evo_canlv_bmslv_temp_ntc2_resistance_encode(ntc_get_int_resistance(0)),
-        msgs.bmslv_temp.ntc3_resistance = sc22_evo_canlv_bmslv_temp_ntc3_resistance_encode(ntc_get_int_resistance(1)),
-        msgs.bmslv_temp.ntc4_resistance = sc22_evo_canlv_bmslv_temp_ntc4_resistance_encode(ntc_get_int_resistance(2)),
-        msgs.bmslv_temp.ntc5_resistance = sc22_evo_canlv_bmslv_temp_ntc5_resistance_encode(ntc_get_int_resistance(3)),
-        msgs.bmslv_temp.ntc6_resistance = sc22_evo_canlv_bmslv_temp_ntc6_resistance_encode(ntc_get_int_resistance(4)),
+        msgs.bmslv_temp.ntc_is_first_message = 0;
+        msgs.bmslv_temp.ntc1_resistance = sc22_evo_canlv_bmslv_temp_ntc1_resistance_encode(ntc_get_ext_resistance(6));
+        msgs.bmslv_temp.ntc2_resistance = sc22_evo_canlv_bmslv_temp_ntc2_resistance_encode(ntc_get_int_resistance(0));
+        msgs.bmslv_temp.ntc3_resistance = sc22_evo_canlv_bmslv_temp_ntc3_resistance_encode(ntc_get_int_resistance(1));
+        msgs.bmslv_temp.ntc4_resistance = sc22_evo_canlv_bmslv_temp_ntc4_resistance_encode(ntc_get_int_resistance(2));
+        msgs.bmslv_temp.ntc5_resistance = sc22_evo_canlv_bmslv_temp_ntc5_resistance_encode(ntc_get_int_resistance(3));
+        msgs.bmslv_temp.ntc6_resistance = sc22_evo_canlv_bmslv_temp_ntc6_resistance_encode(ntc_get_int_resistance(4));
 
         tx_header.DLC = sc22_evo_canlv_bmslv_temp_pack(buffer, &msgs.bmslv_temp, SC22_EVO_CANLV_BMSLV_TEMP_LENGTH);
         can_send(&hcan1, buffer, &tx_header);

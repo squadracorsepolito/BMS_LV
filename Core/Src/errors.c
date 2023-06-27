@@ -61,14 +61,17 @@ void global_toggle_cb(uint8_t error_index, uint8_t instance_index) {
     logger_log(LOGGER_DEBUG, "global_toggle, error_index: %d, instance: %d", error_index, instance_index);
 }
 void undervoltage_exp_cb(uint8_t error_index, uint8_t instance_index) {
+    logger_log(LOGGER_ERROR, "undervoltage on cell %d", instance_index);
 }
 void undervoltage_toggle_cb(uint8_t error_index, uint8_t instance_index) {
 }
 void overvoltage_exp_cb(uint8_t error_index, uint8_t instance_index) {
+    logger_log(LOGGER_ERROR, "overvoltage on cell %d", instance_index);
 }
 void overvoltage_toggle_cb(uint8_t error_index, uint8_t instance_index) {
 }
 void overtemp_exp_cb(uint8_t error_index, uint8_t instance_index) {
+    logger_log(LOGGER_ERROR, "overtemp on temp %d", instance_index);
 }
 void overtemp_toggle_cb(uint8_t error_index, uint8_t instance_index) {
 }

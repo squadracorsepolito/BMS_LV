@@ -13,13 +13,6 @@
 
 TIMEBASE_HandleTypeDef data_reading_timebase_handle;
 
-STMLIBS_StatusTypeDef data_reading_lem_cb(void) {
-  // logger_log(LOGGER_INFO, "curr: %f", lem_get_current_ampere());
-  // logger_log(LOGGER_INFO, "ohm1: %f", ntc_get_int_resistance(0));
-  // logger_log(LOGGER_INFO, "ohm2: %f", ntc_get_ext_resistance(4));
-  return STMLIBS_OK;
-}
-
 STMLIBS_StatusTypeDef data_reading_l9963e_cb(void) {
   uint16_t const *cells;
   uint8_t cells_n;
@@ -65,7 +58,6 @@ void data_reading_timebase_init(void) {
 
   TIMEBASE_add_interval(&data_reading_timebase_handle, 1000, &interval);
   TIMEBASE_register_callback(&data_reading_timebase_handle, interval, data_reading_l9963e_cb);
-  TIMEBASE_register_callback(&data_reading_timebase_handle, interval, data_reading_lem_cb);
 }
 
 void data_reading_timebase_routine(void) {
