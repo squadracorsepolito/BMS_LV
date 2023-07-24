@@ -3,6 +3,7 @@
 #include "ntc.h"
 #include "L9963E_utils.h"
 #include "lem.h"
+#include "errors.h"
 
 #include "logger_wrapper.h"
 
@@ -68,6 +69,7 @@ HAL_StatusTypeDef can_send(CAN_HandleTypeDef *hcan, uint8_t *buffer, CAN_TxHeade
 void can_send_msg(uint32_t id) {
     uint8_t buffer[8] = {0};
     union {
+        struct mcb_bmslv_helo_t bmslv_helo;
         struct mcb_bmslv_temp1_t bmslv_temp1;
         struct mcb_bmslv_temp2_t bmslv_temp2;
         struct mcb_bmslv_cell_voltage1_t bmslv_cell_voltage1;
@@ -80,6 +82,11 @@ void can_send_msg(uint32_t id) {
 
     switch (id)
     {
+    case MCB_BMSLV_HELO_FRAME_ID:
+        msgs.bmslv_helo.time = mcb_bmslv_helo_time_encode(*(uint64_t*)__TIME__);
+
+        tx_header.DLC = mcb_bmslv_helo_pack(buffer, &msgs.bmslv_helo, MCB_BMSLV_HELO_LENGTH);
+        break;
     case MCB_BMSLV_TEMP1_FRAME_ID:
         msgs.bmslv_temp2.ntc1_resistance = mcb_bmslv_temp2_ntc1_resistance_encode(ntc_get_ext_resistance(0));
         msgs.bmslv_temp2.ntc2_resistance = mcb_bmslv_temp2_ntc2_resistance_encode(ntc_get_ext_resistance(1));
@@ -89,7 +96,6 @@ void can_send_msg(uint32_t id) {
         msgs.bmslv_temp2.ntc6_resistance = mcb_bmslv_temp2_ntc6_resistance_encode(ntc_get_ext_resistance(5));
 
         tx_header.DLC = mcb_bmslv_temp1_pack(buffer, &msgs.bmslv_temp1, MCB_BMSLV_TEMP1_LENGTH);
-        can_send(&hcan1, buffer, &tx_header);
         break;
     case MCB_BMSLV_TEMP2_FRAME_ID:
         msgs.bmslv_temp2.ntc1_resistance = mcb_bmslv_temp2_ntc1_resistance_encode(ntc_get_ext_resistance(6));
@@ -100,7 +106,6 @@ void can_send_msg(uint32_t id) {
         msgs.bmslv_temp2.ntc6_resistance = mcb_bmslv_temp2_ntc6_resistance_encode(ntc_get_int_resistance(4));
 
         tx_header.DLC = mcb_bmslv_temp2_pack(buffer, &msgs.bmslv_temp2, MCB_BMSLV_TEMP2_LENGTH);
-        can_send(&hcan1, buffer, &tx_header);
         break;
     case MCB_BMSLV_CELL_VOLTAGE1_FRAME_ID:
         msgs.bmslv_cell_voltage1.cell_1_voltage_m_v = mcb_bmslv_cell_voltage1_cell_1_voltage_m_v_encode(L9963E_utils_get_cell_mv(0));
@@ -109,7 +114,6 @@ void can_send_msg(uint32_t id) {
         msgs.bmslv_cell_voltage1.cell_4_voltage_m_v = mcb_bmslv_cell_voltage1_cell_4_voltage_m_v_encode(L9963E_utils_get_cell_mv(3));
 
         tx_header.DLC = mcb_bmslv_cell_voltage1_pack(buffer, &msgs.bmslv_cell_voltage1, MCB_BMSLV_CELL_VOLTAGE1_LENGTH);
-        can_send(&hcan1, buffer, &tx_header);
         break;
     case MCB_BMSLV_CELL_VOLTAGE2_FRAME_ID:
         msgs.bmslv_cell_voltage2.cell_5_voltage_m_v = mcb_bmslv_cell_voltage1_cell_1_voltage_m_v_encode(L9963E_utils_get_cell_mv(4));
@@ -117,7 +121,6 @@ void can_send_msg(uint32_t id) {
         msgs.bmslv_cell_voltage2.cell_7_voltage_m_v = mcb_bmslv_cell_voltage1_cell_3_voltage_m_v_encode(L9963E_utils_get_cell_mv(6));
 
         tx_header.DLC = mcb_bmslv_cell_voltage2_pack(buffer, &msgs.bmslv_cell_voltage2, MCB_BMSLV_CELL_VOLTAGE2_LENGTH);
-        can_send(&hcan1, buffer, &tx_header);
         break;
     case MCB_BMSLV_BATTERY_PACK_GENERAL_FRAME_ID:
         float vtot, vsumbatt;
@@ -127,18 +130,44 @@ void can_send_msg(uint32_t id) {
         msgs.bmslv_battery_pack_general.lv_total_voltage_sum_m_v = mcb_bmslv_battery_pack_general_lv_total_voltage_m_v_encode(vsumbatt);
 
         tx_header.DLC = mcb_bmslv_battery_pack_general_pack(buffer, &msgs.bmslv_battery_pack_general, MCB_BMSLV_BATTERY_PACK_GENERAL_LENGTH);
-        can_send(&hcan1, buffer, &tx_header);
         break;
     case MCB_BMSLV_STATUS_FRAME_ID:
         msgs.bmslv_status.is_relay_open = HAL_GPIO_ReadPin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin);
-        msgs.bmslv_status.bmslv_status_message = 0xBB;
+        msgs.bmslv_status.cell1_ov = error_get_overvoltage(0);
+        msgs.bmslv_status.cell2_ov = error_get_overvoltage(1);
+        msgs.bmslv_status.cell3_ov = error_get_overvoltage(2);
+        msgs.bmslv_status.cell4_ov = error_get_overvoltage(3);
+        msgs.bmslv_status.cell5_ov = error_get_overvoltage(4);
+        msgs.bmslv_status.cell6_ov = error_get_overvoltage(5);
+        msgs.bmslv_status.cell7_ov = error_get_overvoltage(6);
+
+        msgs.bmslv_status.cell1_uv = error_get_undervoltage(0);
+        msgs.bmslv_status.cell2_uv = error_get_undervoltage(1);
+        msgs.bmslv_status.cell3_uv = error_get_undervoltage(2);
+        msgs.bmslv_status.cell4_uv = error_get_undervoltage(3);
+        msgs.bmslv_status.cell5_uv = error_get_undervoltage(4);
+        msgs.bmslv_status.cell6_uv = error_get_undervoltage(5);
+        msgs.bmslv_status.cell7_uv = error_get_undervoltage(6);
+
+        msgs.bmslv_status.temp1_ot = error_get_overtemp(0);
+        msgs.bmslv_status.temp2_ot = error_get_overtemp(1);
+        msgs.bmslv_status.temp3_ot = error_get_overtemp(2);
+        msgs.bmslv_status.temp4_ot = error_get_overtemp(3);
+        msgs.bmslv_status.temp5_ot = error_get_overtemp(4);
+        msgs.bmslv_status.temp6_ot = error_get_overtemp(5);
+        msgs.bmslv_status.temp7_ot = error_get_overtemp(6);
+        msgs.bmslv_status.temp8_ot = error_get_overtemp(7);
+        msgs.bmslv_status.temp9_ot = error_get_overtemp(8);
+        msgs.bmslv_status.temp10_ot = error_get_overtemp(9);
+        msgs.bmslv_status.temp11_ot = error_get_overtemp(10);
+        msgs.bmslv_status.temp12_ot = error_get_overtemp(11);
 
         tx_header.DLC = mcb_bmslv_status_pack(buffer, &msgs.bmslv_status, MCB_BMSLV_STATUS_LENGTH);
-        can_send(&hcan1, buffer, &tx_header);
         break;
     default:
         break;
     }
+    can_send(&hcan1, buffer, &tx_header);
 }
 
 void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan) {
@@ -156,6 +185,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     if(rx_header.StdId == 0x007 && rx_header.DLC == 2 && buffer[0] == 0xff && buffer[1] == 0x00) {
         NVIC_SystemReset();
     } else if(rx_header.StdId == MCB_BMSLV_RELAY_OVERRIDE_FRAME_ID && rx_header.DLC == MCB_BMSLV_RELAY_OVERRIDE_LENGTH) {
-        HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, GPIO_PIN_SET);
+        struct mcb_bmslv_relay_override_t msg;
+        mcb_bmslv_relay_override_unpack(&msg, buffer, MCB_BMSLV_RELAY_OVERRIDE_LENGTH);
+
+        if(msg.password == 0x420)
+            HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, msg.close_relay ? GPIO_PIN_SET : GPIO_PIN_RESET);
     }
 }

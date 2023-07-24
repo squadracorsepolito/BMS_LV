@@ -33,12 +33,24 @@ void error_set_undervoltage(uint8_t index) {
     ERROR_UTILS_error_set(&error_h, ERRORS_UNDERVOLTAGE, index);
 }
 
+uint8_t error_get_undervoltage(uint8_t index) {
+    return ERROR_UTILS_is_set(&error_h, ERRORS_UNDERVOLTAGE, index);
+}
+
 void error_set_overvoltage(uint8_t index) {
     ERROR_UTILS_error_set(&error_h, ERRORS_OVERVOLTAGE, index);
 }
 
+uint8_t error_get_overvoltage(uint8_t index) {
+    return ERROR_UTILS_is_set(&error_h, ERRORS_OVERVOLTAGE, index);
+}
+
 void error_set_overtemp(uint8_t index) {
     ERROR_UTILS_error_set(&error_h, ERRORS_OVERTEMPERATURE, index);
+}
+
+uint8_t error_get_overtemp(uint8_t index) {
+    return ERROR_UTILS_is_set(&error_h, ERRORS_OVERTEMPERATURE, index);
 }
 
 void error_reset_undervoltage(uint8_t index) {
