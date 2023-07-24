@@ -21,7 +21,7 @@ ERROR_UTILS_ErrorTypeDef errors[] = {
     [ERRORS_UNDERVOLTAGE] = {.expiry_callback = undervoltage_exp_cb, .expiry_delay_ms = 500, .instances = undervoltage_instances, .instances_length = 7, .toggle_callback = undervoltage_toggle_cb},
     [ERRORS_OVERVOLTAGE] = {.expiry_callback = overvoltage_exp_cb, .expiry_delay_ms = 500, .instances = overvoltage_instances, .instances_length = 7, .toggle_callback = overvoltage_toggle_cb},
     [ERRORS_OVERTEMPERATURE] = {.expiry_callback = overtemp_exp_cb, .expiry_delay_ms = 1000, .instances = overtemp_instances, .instances_length = 12, .toggle_callback = overtemp_toggle_cb},
-    };
+};
 ERROR_UTILS_ConfigTypeDef config = {.errors_array = errors, .errors_length = ERRORS_NUM};
 
 void error_init(void)
