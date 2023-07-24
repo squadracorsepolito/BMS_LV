@@ -90,6 +90,7 @@ sourceFiles:
   - Lib/stmlibs/timebase/**
   - Lib/stmlibs/error_utils/**
   - Lib/stmlibs/logger/**
+  - Lib/SCan/**
 
 
 # When no makefile is present it will show a warning pop-up.

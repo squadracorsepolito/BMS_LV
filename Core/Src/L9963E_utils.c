@@ -13,6 +13,7 @@ L9963E_HandleTypeDef h9l;
 volatile uint16_t vcells[CELLS_N];
 volatile uint16_t vgpio[GPIOS_N];
 volatile uint16_t vtot;
+volatile uint32_t vsumbatt;
 
 const L9963E_IfTypeDef interface = {
     .L9963E_IF_DelayMs = DelayMs,
@@ -52,7 +53,7 @@ void L9963E_utils_read_cells(uint8_t read_gpio) {
   do {
     L9963E_poll_conversion(&h9l, 0x1, &c_done);
   } while (!c_done);
-  L9963E_start_conversion(&h9l, 0x1, read_gpio ? L9963E_GPIO_CONV : 0);
+  L9963E_start_conversion(&h9l, 0x1, 0b000, read_gpio ? L9963E_GPIO_CONV : 0);
   
   uint16_t voltage = 0;
   uint8_t d_rdy = 0;
@@ -93,9 +94,8 @@ void L9963E_utils_read_cells(uint8_t read_gpio) {
   vcells[6] = voltage;
 
   do {
-    e = L9963E_read_batt_voltage(&h9l, 0x1, &voltage);
+    e = L9963E_read_batt_voltage(&h9l, 0x1, (uint16_t*)&vtot, (uint32_t*)&vsumbatt);
   } while(e != L9963E_OK);
-  vtot = voltage;
 
   if(!read_gpio)
     return;
@@ -135,25 +135,26 @@ void L9963E_utils_read_cells(uint8_t read_gpio) {
   } while(e != L9963E_OK || !d_rdy);
   vgpio[6] = voltage;
 
-  ntc_set_ext_data(vgpio, GPIOS_N, 0);
+  ntc_set_ext_data((uint16_t*)vgpio, GPIOS_N, 0);
 }
 
 uint16_t const* L9963E_utils_get_gpios(uint8_t *len) {
   if(len)
     *len = GPIOS_N;
-  return vgpio;
+  return (uint16_t*)vgpio;
 }
 
 uint16_t const* L9963E_utils_get_cells(uint8_t *len) {
   if(len)
     *len = CELLS_N;
-  return vcells;
+  return (uint16_t*)vcells;
 }
 
 float L9963E_utils_get_cell_mv(uint8_t index) {
   return vcells[index] * 89e-3f;
 }
 
-float L9963E_utils_get_batt_mv(void) {
-  return vtot * 1.33f;
+void L9963E_utils_get_batt_mv(float *v_tot, float *v_sum) {
+  *v_tot = vtot * 1.33f;
+  *v_sum = vsumbatt * 89e-3f;
 }

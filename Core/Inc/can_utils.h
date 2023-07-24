@@ -2,7 +2,7 @@
 #define CAN_UTILS_H
 
 #include "can.h"
-#include "sc22_evo_canlv.h"
+#include "mcb.h"
 
 void can_init(void);
 void can_send_msg(uint32_t id);

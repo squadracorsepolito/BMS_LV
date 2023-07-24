@@ -13,7 +13,12 @@
         "sc22_evo_canlv.h": "c",
         "timebase.h": "c",
         "tim.h": "c",
-        "can_send_timebase.h": "c"
+        "can_send_timebase.h": "c",
+        "can_utils.h": "c"
     },
-    "cortex-debug.variableUseNaturalFormat": false
+    "cortex-debug.variableUseNaturalFormat": false,
+    "cSpell.words": [
+        "vsumbatt",
+        "vtot"
+    ]
 }

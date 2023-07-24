@@ -51,7 +51,6 @@ Core/Src/lem.c \
 Core/Src/logger_wrapper.c \
 Core/Src/main.c \
 Core/Src/ntc.c \
-Core/Src/sc22_evo_canlv.c \
 Core/Src/spi.c \
 Core/Src/stm32_if.c \
 Core/Src/stm32f4xx_hal_msp.c \
@@ -82,6 +81,7 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c \
 Lib/L9963E_lib/src/L9963E.c \
 Lib/L9963E_lib/src/L9963E_drv.c \
+Lib/SCan/SC22EVO/artifacts/c_source/mcb.c \
 Lib/stmlibs/error_utils/error_utils.c \
 Lib/stmlibs/logger/logger.c \
 Lib/stmlibs/timebase/timebase.c \
@@ -166,6 +166,7 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -ILib/L9963E_lib/inc \
 -ILib/L9963E_lib/interface_example \
+-ILib/SCan/SC22EVO/artifacts/c_source \
 -ILib/stmlibs \
 -ILib/stmlibs/circular_buffer \
 -ILib/stmlibs/critical_section \

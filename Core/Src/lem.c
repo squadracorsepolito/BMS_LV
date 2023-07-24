@@ -13,7 +13,7 @@ void lem_init(void) {
 }
 
 float lem_get_current(void) {
-    return current;
+    return current - (2.5 - zero_offset);
 }
 
 void lem_register_zero_offset(void) {
@@ -22,6 +22,10 @@ void lem_register_zero_offset(void) {
 
 float lem_get_current_ampere(void) {
     return ((current * 3.3 / 4095) - zero_offset) / 0.0125;
+}
+
+float lem_get_current_mv(void) {
+    return current * 3300 / 4095;
 }
 
 void lem_new_value(uint16_t val) {

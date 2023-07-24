@@ -4,3 +4,7 @@
 [submodule "Lib/L9963E_lib"]
 	path = Lib/L9963E_lib
 	url = https://github.com/squadracorsepolito/L9963E_lib
+[submodule "Lib/SCan"]
+	path = Lib/SCan
+	url = https://github.com/squadracorsepolito/SCan.git
+	branch = build
