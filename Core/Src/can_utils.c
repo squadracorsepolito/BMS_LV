@@ -39,7 +39,7 @@ void can_init(void) {
         STDID + RTR + IDE + 4 most significant bits of EXTID
     */
     filter.FilterFIFOAssignment = CAN_FILTER_FIFO0;
-    filter.FilterBank           = 0;
+    filter.FilterBank           = 1;
     filter.FilterScale          = CAN_FILTERSCALE_16BIT;
     filter.FilterActivation     = ENABLE;
 
@@ -132,7 +132,7 @@ void can_send_msg(uint32_t id) {
         tx_header.DLC = mcb_bmslv_battery_pack_general_pack(buffer, &msgs.bmslv_battery_pack_general, MCB_BMSLV_BATTERY_PACK_GENERAL_LENGTH);
         break;
     case MCB_BMSLV_STATUS_FRAME_ID:
-        msgs.bmslv_status.is_relay_open = HAL_GPIO_ReadPin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin);
+        msgs.bmslv_status.is_relay_open = !HAL_GPIO_ReadPin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin);
         msgs.bmslv_status.cell1_ov = error_get_overvoltage(0);
         msgs.bmslv_status.cell2_ov = error_get_overvoltage(1);
         msgs.bmslv_status.cell3_ov = error_get_overvoltage(2);

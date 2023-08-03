@@ -2,6 +2,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "logger_wrapper.h"
+#include "can_utils.h"
 
 void global_exp_cb(uint8_t error_index, uint8_t instance_index);
 void global_toggle_cb(uint8_t error_index, uint8_t instance_index);
@@ -66,6 +67,7 @@ void error_reset_overtemp(uint8_t index) {
 }
 
 void global_exp_cb(uint8_t error_index, uint8_t instance_index) {
+    can_send_msg(MCB_BMSLV_STATUS_FRAME_ID);
     HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, GPIO_PIN_RESET);
     logger_log(LOGGER_DEBUG, "global_exp, error_index: %d, instance: %d", error_index, instance_index);
 }
