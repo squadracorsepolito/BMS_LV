@@ -47,6 +47,7 @@ void can_init(void) {
 
     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_ERROR | CAN_IT_RX_FIFO0_MSG_PENDING);
     HAL_CAN_Start(&hcan1);
+    can_send_msg(MCB_BMSLV_HELO_FRAME_ID);
 }
 
 HAL_StatusTypeDef can_wait(CAN_HandleTypeDef *hcan, uint8_t timeout) {
@@ -77,6 +78,7 @@ void can_send_msg(uint32_t id) {
         struct mcb_bmslv_battery_pack_general_t bmslv_battery_pack_general;
         struct mcb_bmslv_status_t bmslv_status;
     } msgs;
+    float vtot, vsumbatt;
 
     tx_header.StdId = id;
 
@@ -123,7 +125,6 @@ void can_send_msg(uint32_t id) {
         tx_header.DLC = mcb_bmslv_cell_voltage2_pack(buffer, &msgs.bmslv_cell_voltage2, MCB_BMSLV_CELL_VOLTAGE2_LENGTH);
         break;
     case MCB_BMSLV_BATTERY_PACK_GENERAL_FRAME_ID:
-        float vtot, vsumbatt;
         L9963E_utils_get_batt_mv(&vtot, &vsumbatt);
         msgs.bmslv_battery_pack_general.current_sensor_m_v = mcb_bmslv_battery_pack_general_current_sensor_m_v_encode(lem_get_current_mv());
         msgs.bmslv_battery_pack_general.lv_total_voltage_m_v = mcb_bmslv_battery_pack_general_lv_total_voltage_m_v_encode(vtot);

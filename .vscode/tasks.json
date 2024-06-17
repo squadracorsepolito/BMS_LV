@@ -49,7 +49,7 @@
 		{
 			"label": "Build Srec",
 			"type": "process",
-			"command": "/usr/bin/make",
+			"command": "make",
 			"args": [
 				"-f",
 				"STM32Make.make",
@@ -69,7 +69,7 @@
 		{
 			"label": "Flash bootloader",
 			"type": "process",
-			"command": "/usr/bin/make",
+			"command": "make",
 			"args": [
 				"-f",
 				"STM32Make.make",
@@ -89,7 +89,7 @@
 		{
 			"label": "Flash Program via CAN",
 			"type": "process",
-			"command": "/usr/bin/make",
+			"command": "make",
 			"args": [
 				"-f",
 				"STM32Make.make",

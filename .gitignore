@@ -3,9 +3,16 @@
 *.bin
 *.hex
 *.map
-.mxproject
+*.mxproject
 
+*tags
+*Session.vim
 **/build/
 **/Backup/*
 
+**/.vscode/.cortex-debug.peripherals.state.json
+**/.vscode/.cortex-debug.registers.state.json
+**/.vscode/c_cpp_properties.json
+**/.vscode/launch.json
+**/.vscode/settings.json
 !**/.vscode/extensions.json
