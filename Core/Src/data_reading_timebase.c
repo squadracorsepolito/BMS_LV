@@ -21,7 +21,7 @@ STMLIBS_StatusTypeDef data_reading_l9963e_cb(void) {
 
   cells = L9963E_utils_get_cells(&cells_n);
 
-  for(uint8_t i=0; i<cells_n; ++i) {
+  for(uint8_t i=2; i<5; ++i) {
     if(cells[i] > 4.2 / 0.000089)
       error_set_overvoltage(i);
     else
@@ -37,14 +37,22 @@ STMLIBS_StatusTypeDef data_reading_l9963e_cb(void) {
     for(uint8_t i=0; i<NTC_INT_ADC_N; ++i) {
       if(ntc_get_int_temp(i) > 80)
         error_set_overtemp(i);
-      else
+      else if(ntc_get_int_temp(i) < -20)
+        error_set_undertemp(i);
+      else{
         error_reset_overtemp(i);
+        error_reset_undertemp(i);
+      }
     }
     for(uint8_t i=0; i<NTC_EXT_ADC_N; ++i) {
       if(ntc_get_ext_temp(i) > 80)
         error_set_overtemp(NTC_EXT_ADC_N+i);
-      else
+      else if(ntc_get_ext_temp(i) < -20)
+        error_set_undertemp(NTC_EXT_ADC_N+i);
+      else {
         error_reset_overtemp(NTC_EXT_ADC_N+i);
+        error_reset_undertemp(NTC_EXT_ADC_N+i);
+      }
     }
   }
 
@@ -56,7 +64,7 @@ void data_reading_timebase_init(void) {
 
   TIMEBASE_init(&data_reading_timebase_handle, &htim6, 1000);
 
-  TIMEBASE_add_interval(&data_reading_timebase_handle, 1000, &interval);
+  TIMEBASE_add_interval(&data_reading_timebase_handle, 10000, &interval);
   TIMEBASE_register_callback(&data_reading_timebase_handle, interval, data_reading_l9963e_cb);
 }
 

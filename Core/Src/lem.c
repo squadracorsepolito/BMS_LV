@@ -37,6 +37,10 @@ void lem_new_value(uint16_t val) {
     }
 
     current = LEM_EXP_SMOOTH_ALPHA*val + (1-LEM_EXP_SMOOTH_ALPHA)*current;
+
+    if(lem_get_current_ampere() > 50) {
+        HAL_GPIO_WritePin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin, GPIO_PIN_RESET);
+    }
 }
 
 void lem_adc_callback(ADC_HandleTypeDef *hadc) {

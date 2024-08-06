@@ -139,7 +139,7 @@ int main(void)
     data_reading_timebase_routine();
     can_send_timebase_routine();
     
-    logger_routine();
+    // logger_routine();
 
     // HAL_Delay(500);
 

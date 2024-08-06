@@ -90,22 +90,22 @@ void can_send_msg(uint32_t id) {
         tx_header.DLC = mcb_bmslv_helo_pack(buffer, &msgs.bmslv_helo, MCB_BMSLV_HELO_LENGTH);
         break;
     case MCB_BMSLV_TEMP1_FRAME_ID:
-        msgs.bmslv_temp2.ntc1_resistance = mcb_bmslv_temp2_ntc1_resistance_encode(ntc_get_ext_resistance(0));
-        msgs.bmslv_temp2.ntc2_resistance = mcb_bmslv_temp2_ntc2_resistance_encode(ntc_get_ext_resistance(1));
-        msgs.bmslv_temp2.ntc3_resistance = mcb_bmslv_temp2_ntc3_resistance_encode(ntc_get_ext_resistance(2));
-        msgs.bmslv_temp2.ntc4_resistance = mcb_bmslv_temp2_ntc4_resistance_encode(ntc_get_ext_resistance(3));
-        msgs.bmslv_temp2.ntc5_resistance = mcb_bmslv_temp2_ntc5_resistance_encode(ntc_get_ext_resistance(4));
-        msgs.bmslv_temp2.ntc6_resistance = mcb_bmslv_temp2_ntc6_resistance_encode(ntc_get_ext_resistance(5));
+        msgs.bmslv_temp1.ntc1_resistance = mcb_bmslv_temp1_ntc1_resistance_encode(ntc_get_ext_temp(0)*1000);
+        msgs.bmslv_temp1.ntc2_resistance = mcb_bmslv_temp1_ntc2_resistance_encode(ntc_get_ext_temp(1)*1000);
+        msgs.bmslv_temp1.ntc3_resistance = mcb_bmslv_temp1_ntc3_resistance_encode(ntc_get_ext_temp(2)*1000);
+        msgs.bmslv_temp1.ntc4_resistance = mcb_bmslv_temp1_ntc4_resistance_encode(ntc_get_ext_temp(3)*1000);
+        msgs.bmslv_temp1.ntc5_resistance = mcb_bmslv_temp1_ntc5_resistance_encode(ntc_get_ext_temp(4)*1000);
+        msgs.bmslv_temp1.ntc6_resistance = mcb_bmslv_temp1_ntc6_resistance_encode(ntc_get_ext_temp(5)*1000);
 
         tx_header.DLC = mcb_bmslv_temp1_pack(buffer, &msgs.bmslv_temp1, MCB_BMSLV_TEMP1_LENGTH);
         break;
     case MCB_BMSLV_TEMP2_FRAME_ID:
-        msgs.bmslv_temp2.ntc1_resistance = mcb_bmslv_temp2_ntc1_resistance_encode(ntc_get_ext_resistance(6));
-        msgs.bmslv_temp2.ntc2_resistance = mcb_bmslv_temp2_ntc2_resistance_encode(ntc_get_int_resistance(0));
-        msgs.bmslv_temp2.ntc3_resistance = mcb_bmslv_temp2_ntc3_resistance_encode(ntc_get_int_resistance(1));
-        msgs.bmslv_temp2.ntc4_resistance = mcb_bmslv_temp2_ntc4_resistance_encode(ntc_get_int_resistance(2));
-        msgs.bmslv_temp2.ntc5_resistance = mcb_bmslv_temp2_ntc5_resistance_encode(ntc_get_int_resistance(3));
-        msgs.bmslv_temp2.ntc6_resistance = mcb_bmslv_temp2_ntc6_resistance_encode(ntc_get_int_resistance(4));
+        msgs.bmslv_temp2.ntc1_resistance = mcb_bmslv_temp2_ntc1_resistance_encode(ntc_get_ext_temp(6)*1000);
+        msgs.bmslv_temp2.ntc2_resistance = mcb_bmslv_temp2_ntc2_resistance_encode(ntc_get_int_temp(0)*1000);
+        msgs.bmslv_temp2.ntc3_resistance = mcb_bmslv_temp2_ntc3_resistance_encode(ntc_get_int_temp(1)*1000);
+        msgs.bmslv_temp2.ntc4_resistance = mcb_bmslv_temp2_ntc4_resistance_encode(ntc_get_int_temp(2)*1000);
+        msgs.bmslv_temp2.ntc5_resistance = mcb_bmslv_temp2_ntc5_resistance_encode(ntc_get_int_temp(3)*1000);
+        msgs.bmslv_temp2.ntc6_resistance = mcb_bmslv_temp2_ntc6_resistance_encode(ntc_get_int_temp(4)*1000);
 
         tx_header.DLC = mcb_bmslv_temp2_pack(buffer, &msgs.bmslv_temp2, MCB_BMSLV_TEMP2_LENGTH);
         break;
@@ -166,13 +166,13 @@ void can_send_msg(uint32_t id) {
         tx_header.DLC = mcb_bmslv_status_pack(buffer, &msgs.bmslv_status, MCB_BMSLV_STATUS_LENGTH);
         break;
     default:
-        break;
+        return;
     }
     can_send(&hcan1, buffer, &tx_header);
 }
 
 void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan) {
-    logger_log(LOGGER_ERROR, "sborato");
+    // logger_log(LOGGER_ERROR, "sborato");
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {

@@ -30,12 +30,12 @@ void can_send_timebase_init(void) {
 
   TIMEBASE_init(&can_send_timebase_handle, &htim10, 1000);
 
-  TIMEBASE_add_interval(&can_send_timebase_handle, 1000, &interval);
+  TIMEBASE_add_interval(&can_send_timebase_handle, 10000, &interval);
   TIMEBASE_register_callback(&can_send_timebase_handle, interval, battery_pack_general_cb);
+
+  TIMEBASE_add_interval(&can_send_timebase_handle, 200000, &interval);
   TIMEBASE_register_callback(&can_send_timebase_handle, interval, cell_voltage_cb);
   TIMEBASE_register_callback(&can_send_timebase_handle, interval, status_cb);
-
-  TIMEBASE_add_interval(&can_send_timebase_handle, 20000, &interval);
   TIMEBASE_register_callback(&can_send_timebase_handle, interval, temp_cb);
 }
 
