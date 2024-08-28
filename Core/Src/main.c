@@ -120,7 +120,7 @@ int main(void)
   can_send_timebase_init();
   error_init();
   logger_init();
-  can_init();
+  MCB_send_msg(MCB_BMS_LV_HELLO_FRAME_ID);
 
   while(HAL_GetTick() < 500)
     HAL_Delay(100);

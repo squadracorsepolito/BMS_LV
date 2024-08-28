@@ -1,0 +1,6 @@
+VALUES=[ "total_current", "ntc_ext_temp(0)", "ntc_ext_temp(1)", "ntc_ext_temp(2)", "ntc_ext_temp(3)", "ntc_ext_temp(4)", "ntc_ext_temp(5)", "ntc_ext_temp(6)", "ntc_int_temp(0)", "ntc_int_temp(1)", "ntc_int_temp(2)", "ntc_int_temp(3)", "ntc_int_temp(4)", "ntc_int_temp(5)", "ntc_int_temp(6)", "cell(0)_mv", "cell(1)_mv", "cell(2)_mv", "cell(3)_mv", "cell(4)_mv", "cell(5)_mv", "cell(6)_mv", "vtot", "vsumbatt"]
+NEWLINE=\r\n
+SEPARATOR=,
+BAUDRATE=115200
+UDP_PORT=6000
+SERIAL_PORT=/dev/ttyACM0
