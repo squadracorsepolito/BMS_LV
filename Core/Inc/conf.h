@@ -23,8 +23,8 @@
 
 /* ---------- Exported constants --------------------------------------------*/
 #define VERSION_MAJOR 2
-#define VERSION_MINOR 2
-#define VERSION_PATCH 1
+#define VERSION_MINOR 1
+#define VERSION_PATCH 2
 
 #define DEBUG_SERIAL
 #define DEBUG_AIN
