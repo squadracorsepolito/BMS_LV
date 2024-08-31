@@ -12,6 +12,7 @@
       ],
       "defines": [
         "STM32F446xx",
+        "USE_FULL_LL_DRIVER",
         "USE_HAL_DRIVER"
       ],
       "compilerPath": "/usr/bin/arm-none-eabi-gcc"

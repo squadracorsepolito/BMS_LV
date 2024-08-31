@@ -38,6 +38,7 @@ BUILD_DIR = build
 C_SOURCES =  \
 Core/Src/L9963E_utils.c \
 Core/Src/adc.c \
+Core/Src/app_db.c \
 Core/Src/can.c \
 Core/Src/can_send_timebase.c \
 Core/Src/can_utils.c \
@@ -83,7 +84,13 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c \
 Lib/L9963E_lib/src/L9963E.c \
 Lib/L9963E_lib/src/L9963E_drv.c \
-Lib/SCan/SC22EVO/artifacts/c_source/mcb.c \
+Lib/SCan/SC22EVO/artifacts/HVCB/c_source/hvcb.c \
+Lib/SCan/SC22EVO/artifacts/MCB/c_source/mcb.c \
+Lib/SCan/SC24/artifacts/HVCB/c_source/hvcb.c \
+Lib/SCan/SC24/artifacts/IFCB/c_source/ifcb.c \
+Lib/SCan/SC24/artifacts/IRCB/c_source/ircb.c \
+Lib/SCan/SC24/artifacts/MCB/c_source/mcb.c \
+Lib/SCan/SC24/artifacts/MCB_og/c_source/mcb_og.c \
 Lib/stmlibs/error_utils/error_utils.c \
 Lib/stmlibs/logger/logger.c \
 Lib/stmlibs/timebase/timebase.c \
@@ -168,10 +175,18 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -ILib/L9963E_lib/inc \
 -ILib/L9963E_lib/interface_example \
--ILib/SCan/SC22EVO/artifacts/c_source \
+-ILib/SCan/SC22EVO/artifacts/HVCB/c_source \
+-ILib/SCan/SC22EVO/artifacts/MCB/c_source \
+-ILib/SCan/SC24/artifacts/HVCB/c_source \
+-ILib/SCan/SC24/artifacts/IFCB/c_source \
+-ILib/SCan/SC24/artifacts/IRCB/c_source \
+-ILib/SCan/SC24/artifacts/MCB/c_source \
+-ILib/SCan/SC24/artifacts/MCB_og/c_source \
 -ILib/stmlibs \
 -ILib/stmlibs/circular_buffer \
 -ILib/stmlibs/critical_section \
+-ILib/stmlibs/digital_filters/iir_filter \
+-ILib/stmlibs/digital_filters/median_filter \
 -ILib/stmlibs/error_utils \
 -ILib/stmlibs/fsm \
 -ILib/stmlibs/lock \

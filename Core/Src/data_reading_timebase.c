@@ -27,31 +27,31 @@ STMLIBS_StatusTypeDef data_reading_l9963e_cb(void) {
     else
       error_reset_overvoltage(i);
 
-    if(cells[i] < 2.8 / 0.000089)
+    if(cells[i] < 2.5 / 0.000089)
       error_set_undervoltage(i);
     else
       error_reset_undervoltage(i);
   }
 
-  if(is_ntc_measure_required) {
+  if(is_ntc_measure_required && HAL_GetTick() > 2000) {
     for(uint8_t i=0; i<NTC_INT_ADC_N; ++i) {
-      if(ntc_get_int_temp(i) > 80)
+      if(ntc_get_int_temp(i) > 80){
         error_set_overtemp(i);
-      else if(ntc_get_int_temp(i) < -20)
+      } else if(ntc_get_int_temp(i) < -20){
         error_set_undertemp(i);
-      else{
+      } else{
         error_reset_overtemp(i);
         error_reset_undertemp(i);
       }
     }
     for(uint8_t i=0; i<NTC_EXT_ADC_N; ++i) {
-      if(ntc_get_ext_temp(i) > 80)
-        error_set_overtemp(NTC_EXT_ADC_N+i);
-      else if(ntc_get_ext_temp(i) < -20)
-        error_set_undertemp(NTC_EXT_ADC_N+i);
-      else {
-        error_reset_overtemp(NTC_EXT_ADC_N+i);
-        error_reset_undertemp(NTC_EXT_ADC_N+i);
+      if(ntc_get_ext_temp(i) > 80){
+        error_set_overtemp(NTC_INT_ADC_N+i);
+      } else if(ntc_get_ext_temp(i) < -20){
+        error_set_undertemp(NTC_INT_ADC_N+i);
+      } else {
+        error_reset_overtemp(NTC_INT_ADC_N+i);
+        error_reset_undertemp(NTC_INT_ADC_N+i);
       }
     }
   }

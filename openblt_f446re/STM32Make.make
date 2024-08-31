@@ -132,12 +132,14 @@ AS_DEFS =
 # C defines
 C_DEFS =  \
 -DSTM32F446xx \
+-DUSE_FULL_LL_DRIVER \
 -DUSE_HAL_DRIVER
 
 
 # CXX defines
 CXX_DEFS =  \
 -DSTM32F446xx \
+-DUSE_FULL_LL_DRIVER \
 -DUSE_HAL_DRIVER
 
 
@@ -207,7 +209,6 @@ vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
 
-# list of ASM program objects
 # list of ASM program objects
 UPPER_CASE_ASM_SOURCES = $(filter %.S,$(ASM_SOURCES))
 LOWER_CASE_ASM_SOURCES = $(filter %.s,$(ASM_SOURCES))

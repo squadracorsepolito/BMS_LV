@@ -45,22 +45,22 @@ void MCB_send_msg(uint32_t id) {
             tx_header.DLC = mcb_bms_lv_hello_pack(buffer, &msg.hello, 8U);
             break;
         case MCB_BMS_LV_LV_CELL_NTC_RESISTANCE0_FRAME_ID:
-            msg.lv_cell_ntc_resistance0.lv_cell_ntc_00_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_00_resistance_encode(ntc_get_ext_resistance(0)); //ntc_get_ext_temp(0)*1000);
-            msg.lv_cell_ntc_resistance0.lv_cell_ntc_01_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_01_resistance_encode(ntc_get_ext_resistance(1)); //ntc_get_ext_temp(1)*1000);
-            msg.lv_cell_ntc_resistance0.lv_cell_ntc_02_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_02_resistance_encode(ntc_get_ext_resistance(2)); //ntc_get_ext_temp(2)*1000);
-            msg.lv_cell_ntc_resistance0.lv_cell_ntc_03_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_03_resistance_encode(ntc_get_ext_resistance(3)); //ntc_get_ext_temp(3)*1000);
-            msg.lv_cell_ntc_resistance0.lv_cell_ntc_04_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_04_resistance_encode(ntc_get_ext_resistance(4)); //ntc_get_ext_temp(4)*1000);
-            msg.lv_cell_ntc_resistance0.lv_cell_ntc_05_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_05_resistance_encode(ntc_get_ext_resistance(5)); //ntc_get_ext_temp(5)*1000);
+            msg.lv_cell_ntc_resistance0.lv_cell_ntc_00_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_00_resistance_encode(ntc_get_ext_temp(0)*100);
+            msg.lv_cell_ntc_resistance0.lv_cell_ntc_01_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_01_resistance_encode(ntc_get_ext_temp(1)*100);
+            msg.lv_cell_ntc_resistance0.lv_cell_ntc_02_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_02_resistance_encode(ntc_get_ext_temp(2)*100);
+            msg.lv_cell_ntc_resistance0.lv_cell_ntc_03_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_03_resistance_encode(ntc_get_ext_temp(3)*100);
+            msg.lv_cell_ntc_resistance0.lv_cell_ntc_04_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_04_resistance_encode(ntc_get_ext_temp(4)*100);
+            msg.lv_cell_ntc_resistance0.lv_cell_ntc_05_resistance = mcb_bms_lv_lv_cell_ntc_resistance0_lv_cell_ntc_05_resistance_encode(ntc_get_ext_temp(5)*100);
 
             tx_header.DLC = mcb_bms_lv_lv_cell_ntc_resistance0_pack(buffer, &msg.lv_cell_ntc_resistance0, 8U);
             break;
         case MCB_BMS_LV_LV_CELL_NTC_RESISTANCE1_FRAME_ID:
-            msg.lv_cell_ntc_resistance1.lv_cell_ntc_06_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_06_resistance_encode(ntc_get_ext_resistance(6)); //ntc_get_ext_temp(6)*1000);
-            msg.lv_cell_ntc_resistance1.lv_cell_ntc_07_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_07_resistance_encode(ntc_get_int_resistance(0)); //ntc_get_int_temp(0)*1000);
-            msg.lv_cell_ntc_resistance1.lv_cell_ntc_08_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_08_resistance_encode(ntc_get_int_resistance(1)); //ntc_get_int_temp(1)*1000);
-            msg.lv_cell_ntc_resistance1.lv_cell_ntc_09_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_09_resistance_encode(ntc_get_int_resistance(2)); //ntc_get_int_temp(2)*1000);
-            msg.lv_cell_ntc_resistance1.lv_cell_ntc_10_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_10_resistance_encode(ntc_get_int_resistance(3)); //ntc_get_int_temp(3)*1000);
-            msg.lv_cell_ntc_resistance1.lv_cell_ntc_11_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_11_resistance_encode(ntc_get_int_resistance(4)); //ntc_get_int_temp(4)*1000);
+            msg.lv_cell_ntc_resistance1.lv_cell_ntc_06_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_06_resistance_encode(ntc_get_ext_temp(6)*100);
+            msg.lv_cell_ntc_resistance1.lv_cell_ntc_07_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_07_resistance_encode(ntc_get_int_temp(0)*100);
+            msg.lv_cell_ntc_resistance1.lv_cell_ntc_08_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_08_resistance_encode(ntc_get_int_temp(1)*100);
+            msg.lv_cell_ntc_resistance1.lv_cell_ntc_09_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_09_resistance_encode(ntc_get_int_temp(2)*100);
+            msg.lv_cell_ntc_resistance1.lv_cell_ntc_10_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_10_resistance_encode(ntc_get_int_temp(3)*100);
+            msg.lv_cell_ntc_resistance1.lv_cell_ntc_11_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_11_resistance_encode(ntc_get_int_temp(4)*100);
 
             tx_header.DLC = mcb_bms_lv_lv_cell_ntc_resistance1_pack(buffer, &msg.lv_cell_ntc_resistance1, 8U);
             break;
@@ -90,43 +90,43 @@ void MCB_send_msg(uint32_t id) {
             tx_header.DLC = mcb_bms_lv_lv_bat_general_pack(
                 buffer, &msg.lv_bat_general, 8U);
             break;
-        case MCB_BMS_LV_CELLS_STATUS_FRAME_ID:
-            msg.cells_status.lv_cell_0_is_ov = error_get_overvoltage(0);
-            msg.cells_status.lv_cell_1_is_ov = error_get_overvoltage(1);
-            msg.cells_status.lv_cell_2_is_ov = error_get_overvoltage(2);
-            msg.cells_status.lv_cell_3_is_ov = error_get_overvoltage(3);
-            msg.cells_status.lv_cell_4_is_ov = error_get_overvoltage(4);
-            msg.cells_status.lv_cell_5_is_ov = error_get_overvoltage(5);
-            msg.cells_status.lv_cell_6_is_ov = error_get_overvoltage(6);
+        // case MCB_BMS_LV_CELLS_STATUS_FRAME_ID:
+        //     msg.cells_status.lv_cell_0_is_ov = error_get_overvoltage(0);
+        //     msg.cells_status.lv_cell_1_is_ov = error_get_overvoltage(1);
+        //     msg.cells_status.lv_cell_2_is_ov = error_get_overvoltage(2);
+        //     msg.cells_status.lv_cell_3_is_ov = error_get_overvoltage(3);
+        //     msg.cells_status.lv_cell_4_is_ov = error_get_overvoltage(4);
+        //     msg.cells_status.lv_cell_5_is_ov = error_get_overvoltage(5);
+        //     msg.cells_status.lv_cell_6_is_ov = error_get_overvoltage(6);
 
-            msg.cells_status.lv_cell_0_is_uv = error_get_undervoltage(0);
-            msg.cells_status.lv_cell_1_is_uv = error_get_undervoltage(1);
-            msg.cells_status.lv_cell_2_is_uv = error_get_undervoltage(2);
-            msg.cells_status.lv_cell_3_is_uv = error_get_undervoltage(3);
-            msg.cells_status.lv_cell_4_is_uv = error_get_undervoltage(4);
-            msg.cells_status.lv_cell_5_is_uv = error_get_undervoltage(5);
-            msg.cells_status.lv_cell_6_is_uv = error_get_undervoltage(6);
+        //     msg.cells_status.lv_cell_0_is_uv = error_get_undervoltage(0);
+        //     msg.cells_status.lv_cell_1_is_uv = error_get_undervoltage(1);
+        //     msg.cells_status.lv_cell_2_is_uv = error_get_undervoltage(2);
+        //     msg.cells_status.lv_cell_3_is_uv = error_get_undervoltage(3);
+        //     msg.cells_status.lv_cell_4_is_uv = error_get_undervoltage(4);
+        //     msg.cells_status.lv_cell_5_is_uv = error_get_undervoltage(5);
+        //     msg.cells_status.lv_cell_6_is_uv = error_get_undervoltage(6);
 
-            msg.cells_status.lv_cell_ntc_00_is_ot = error_get_overtemp(0);
-            msg.cells_status.lv_cell_ntc_01_is_ot = error_get_overtemp(1);
-            msg.cells_status.lv_cell_ntc_02_is_ot = error_get_overtemp(2);
-            msg.cells_status.lv_cell_ntc_03_is_ot = error_get_overtemp(3);
-            msg.cells_status.lv_cell_ntc_04_is_ot = error_get_overtemp(4);
-            msg.cells_status.lv_cell_ntc_05_is_ot = error_get_overtemp(5);
-            msg.cells_status.lv_cell_ntc_06_is_ot = error_get_overtemp(6);
-            msg.cells_status.lv_cell_ntc_07_is_ot = error_get_overtemp(7);
-            msg.cells_status.lv_cell_ntc_08_is_ot = error_get_overtemp(8);
-            msg.cells_status.lv_cell_ntc_09_is_ot = error_get_overtemp(9);
-            msg.cells_status.lv_cell_ntc_10_is_ot = error_get_overtemp(10);
-            msg.cells_status.lv_cell_ntc_11_is_ot = error_get_overtemp(11);
+        //     msg.cells_status.lv_cell_ntc_00_is_ot = error_get_overtemp(0);
+        //     msg.cells_status.lv_cell_ntc_01_is_ot = error_get_overtemp(1);
+        //     msg.cells_status.lv_cell_ntc_02_is_ot = error_get_overtemp(2);
+        //     msg.cells_status.lv_cell_ntc_03_is_ot = error_get_overtemp(3);
+        //     msg.cells_status.lv_cell_ntc_04_is_ot = error_get_overtemp(4);
+        //     msg.cells_status.lv_cell_ntc_05_is_ot = error_get_overtemp(5);
+        //     msg.cells_status.lv_cell_ntc_06_is_ot = error_get_overtemp(6);
+        //     msg.cells_status.lv_cell_ntc_07_is_ot = error_get_overtemp(7);
+        //     msg.cells_status.lv_cell_ntc_08_is_ot = error_get_overtemp(8);
+        //     msg.cells_status.lv_cell_ntc_09_is_ot = error_get_overtemp(9);
+        //     msg.cells_status.lv_cell_ntc_10_is_ot = error_get_overtemp(10);
+        //     msg.cells_status.lv_cell_ntc_11_is_ot = error_get_overtemp(11);
 
-            tx_header.DLC = mcb_bms_lv_cells_status_pack(buffer, &msg.cells_status, 8U);
-            break;
-        case MCB_BMS_LV_STATUS_FRAME_ID:
-            msg.status.lv_relay_is_closed = HAL_GPIO_ReadPin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin);
-            msg.status.lv_relay_is_relay_override_on = ADB.LV_RLY_override_state != LV_RLY_override_OFF ? 1U : 0U ;
+        //     tx_header.DLC = mcb_bms_lv_cells_status_pack(buffer, &msg.cells_status, 8U);
+        //     break;
+        // case MCB_BMS_LV_STATUS_FRAME_ID:
+        //     msg.status.lv_relay_is_closed = HAL_GPIO_ReadPin(LV_CMD_GPIO_OUT_GPIO_Port, LV_CMD_GPIO_OUT_Pin);
+        //     msg.status.lv_relay_is_relay_override_on = ADB.LV_RLY_override_state != LV_RLY_override_OFF ? 1U : 0U ;
 
-            tx_header.DLC = mcb_bms_lv_status_pack(buffer, &msg.status, 8U);
+        //     tx_header.DLC = mcb_bms_lv_status_pack(buffer, &msg.status, 8U);
         default:
             break;
     }
