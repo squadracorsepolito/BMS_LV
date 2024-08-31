@@ -33,7 +33,7 @@ STMLIBS_StatusTypeDef data_reading_l9963e_cb(void) {
       error_reset_undervoltage(i);
   }
 
-  if(is_ntc_measure_required && HAL_GetTick() > 2000) {
+  if(is_ntc_measure_required && HAL_GetTick() > 5000) {
     for(uint8_t i=0; i<NTC_INT_ADC_N; ++i) {
       if(ntc_get_int_temp(i) > 80){
         error_set_overtemp(i);
