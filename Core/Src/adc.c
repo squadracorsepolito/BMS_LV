@@ -101,7 +101,7 @@ void MX_ADC2_Init(void)
   hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISINGFALLING;
   hadc2.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T2_TRGO;
   hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc2.Init.NbrOfConversion = 5;
+  hadc2.Init.NbrOfConversion = 6;
   hadc2.Init.DMAContinuousRequests = ENABLE;
   hadc2.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   if (HAL_ADC_Init(&hadc2) != HAL_OK)
@@ -150,6 +150,15 @@ void MX_ADC2_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = 5;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_5;
+  sConfig.Rank = 6;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -203,9 +212,10 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     PA2     ------> ADC2_IN2
     PA3     ------> ADC2_IN3
     PA4     ------> ADC2_IN4
+    PA5     ------> ADC2_IN5
     */
     GPIO_InitStruct.Pin = NTC8_ADC2_IN_Pin|NTC9_ADC2_IN_Pin|NTC10_ADC2_IN_Pin|NTC11_ADC2_IN_Pin
-                          |NTC12_ADC2_IN_Pin;
+                          |NTC12_ADC2_IN_Pin|NTC13_ADC2_IN_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -281,9 +291,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     PA2     ------> ADC2_IN2
     PA3     ------> ADC2_IN3
     PA4     ------> ADC2_IN4
+    PA5     ------> ADC2_IN5
     */
     HAL_GPIO_DeInit(GPIOA, NTC8_ADC2_IN_Pin|NTC9_ADC2_IN_Pin|NTC10_ADC2_IN_Pin|NTC11_ADC2_IN_Pin
-                          |NTC12_ADC2_IN_Pin);
+                          |NTC12_ADC2_IN_Pin|NTC13_ADC2_IN_Pin);
 
     /* ADC2 DMA DeInit */
     HAL_DMA_DeInit(adcHandle->DMA_Handle);

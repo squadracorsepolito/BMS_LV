@@ -105,17 +105,25 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     __HAL_RCC_SPI1_CLK_ENABLE();
 
     __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
     /**SPI1 GPIO Configuration
-    PA5     ------> SPI1_SCK
     PA6     ------> SPI1_MISO
     PA7     ------> SPI1_MOSI
+    PB3     ------> SPI1_SCK
     */
-    GPIO_InitStruct.Pin = L9963T_SCK_SPI_SCK_Pin|L9963T_SDO_SPI_MISO_Pin|L9963T_SDI_SPI_MOSI_Pin;
+    GPIO_InitStruct.Pin = L9963T_SDO_SPI_MISO_Pin|L9963T_SDI_SPI_MOSI_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = L9963T_SCK_SPI_SCK_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+    HAL_GPIO_Init(L9963T_SCK_SPI_SCK_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN SPI1_MspInit 1 */
 
@@ -168,11 +176,13 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
     __HAL_RCC_SPI1_CLK_DISABLE();
 
     /**SPI1 GPIO Configuration
-    PA5     ------> SPI1_SCK
     PA6     ------> SPI1_MISO
     PA7     ------> SPI1_MOSI
+    PB3     ------> SPI1_SCK
     */
-    HAL_GPIO_DeInit(GPIOA, L9963T_SCK_SPI_SCK_Pin|L9963T_SDO_SPI_MISO_Pin|L9963T_SDI_SPI_MOSI_Pin);
+    HAL_GPIO_DeInit(GPIOA, L9963T_SDO_SPI_MISO_Pin|L9963T_SDI_SPI_MOSI_Pin);
+
+    HAL_GPIO_DeInit(L9963T_SCK_SPI_SCK_GPIO_Port, L9963T_SCK_SPI_SCK_Pin);
 
   /* USER CODE BEGIN SPI1_MspDeInit 1 */
 

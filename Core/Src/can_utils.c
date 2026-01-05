@@ -22,6 +22,7 @@ void MCB_send_msg(uint32_t id) {
         struct mcb_bms_lv_hello_t hello;
         struct mcb_bms_lv_lv_cell_ntc_resistance0_t lv_cell_ntc_resistance0;
         struct mcb_bms_lv_lv_cell_ntc_resistance1_t lv_cell_ntc_resistance1;
+        struct mcb_bms_lv_lv_cell_ntc_resistance2_t lv_cell_ntc_resistance2; //
         struct mcb_bms_lv_lv_cell_voltage0_t lv_cell_voltage0;
         struct mcb_bms_lv_lv_cell_voltage1_t lv_cell_voltage1;
         struct mcb_bms_lv_lv_bat_general_t lv_bat_general;
@@ -63,6 +64,11 @@ void MCB_send_msg(uint32_t id) {
             msg.lv_cell_ntc_resistance1.lv_cell_ntc_11_resistance = mcb_bms_lv_lv_cell_ntc_resistance1_lv_cell_ntc_11_resistance_encode(ntc_get_int_temp(4)*100);
 
             tx_header.DLC = mcb_bms_lv_lv_cell_ntc_resistance1_pack(buffer, &msg.lv_cell_ntc_resistance1, 8U);
+            break;
+        case MCB_BMS_LV_LV_CELL_NTC_RESISTANCE2_FRAME_ID:
+            msg.lv_cell_ntc_resistance2.lv_cell_ntc_12_resistance = mcb_bms_lv_lv_cell_ntc_resistance2_lv_cell_ntc_12_resistance_encode(ntc_get_int_temp(5)*100);
+
+            tx_header.DLC = mcb_bms_lv_lv_cell_ntc_resistance2_pack(buffer, &msg.lv_cell_ntc_resistance2, 8U);
             break;
         case MCB_BMS_LV_LV_CELL_VOLTAGE0_FRAME_ID:
             msg.lv_cell_voltage0.lv_cell_0_voltage = mcb_bms_lv_lv_cell_voltage0_lv_cell_0_voltage_encode(L9963E_utils_get_cell_mv(0));
@@ -119,6 +125,7 @@ void MCB_send_msg(uint32_t id) {
             msg.cells_status.lv_cell_ntc_09_is_ot = error_get_overtemp(9);
             msg.cells_status.lv_cell_ntc_10_is_ot = error_get_overtemp(10);
             msg.cells_status.lv_cell_ntc_11_is_ot = error_get_overtemp(11);
+            msg.cells_status.lv_cell_ntc_12_is_ot = error_get_overtemp(12);
 
             tx_header.DLC = mcb_bms_lv_cells_status_pack(buffer, &msg.cells_status, 8U);
             break;

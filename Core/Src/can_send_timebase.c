@@ -22,6 +22,7 @@ STMLIBS_StatusTypeDef status_cb(void) {
 STMLIBS_StatusTypeDef temp_cb(void) {
   MCB_send_msg(MCB_BMS_LV_LV_CELL_NTC_RESISTANCE0_FRAME_ID);
   MCB_send_msg(MCB_BMS_LV_LV_CELL_NTC_RESISTANCE1_FRAME_ID);
+  MCB_send_msg(MCB_BMS_LV_LV_CELL_NTC_RESISTANCE2_FRAME_ID);
   return STMLIBS_OK;
 }
 

@@ -4,7 +4,7 @@
 #include "adc.h"
 
 #define NTC_EXT_ADC_N 7
-#define NTC_INT_ADC_N 5
+#define NTC_INT_ADC_N 6
 
 void ntc_init(void);
 uint8_t ntc_is_measure_ext_time(void);
